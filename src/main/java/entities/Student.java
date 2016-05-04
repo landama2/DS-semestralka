@@ -1,6 +1,7 @@
 package entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by marek on 3.5.16.
@@ -28,4 +29,7 @@ public class Student {
 
     @Column(nullable = false)
     private int rokNastupu;
+
+    @OneToMany(mappedBy = "student")
+    private List<ZaznamPredmet> zaznamPredmetList;
 }

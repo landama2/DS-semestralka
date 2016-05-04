@@ -1,6 +1,7 @@
 package entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by marek on 3.5.16.
@@ -19,5 +20,11 @@ public class InstancePredmet {
 
     @ManyToOne
     private Predmet predmet;
+
+    @OneToMany(mappedBy = "instancePredmet")
+    private List<TerminZkouska> terminZkouskaList;
+
+    @OneToMany(mappedBy = "instancePredmet")
+    private List<ZaznamPredmet> zaznamPredmetList;
 
 }

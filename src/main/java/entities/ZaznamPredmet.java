@@ -1,6 +1,7 @@
 package entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by marek on 3.5.16.
@@ -21,9 +22,15 @@ public class ZaznamPredmet {
     @Column(nullable = false)
     private PoradiZapisu poradiZapisu;
 
-    @Column(nullable = false)
-    private Student student;
-
     @ManyToOne
     private Vyucujici vyucujici;
+
+    @ManyToMany
+    private List<TerminZkouska> terminZkouskaList;
+
+    @OneToMany
+    private Student student;
+
+    @OneToMany
+    private InstancePredmet instancePredmet;
 }
