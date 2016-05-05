@@ -30,6 +30,6 @@ public class Student {
     @Column(nullable = false)
     private int rokNastupu;
 
-    @OneToMany(mappedBy = "zaznamPredmet")
+    @OneToMany(mappedBy = "student")
     private List<ZaznamPredmet> zaznamPredmetList;
 }

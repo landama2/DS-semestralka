@@ -28,9 +28,9 @@ public class ZaznamPredmet {
     @ManyToMany
     private List<TerminZkouska> terminZkouskaList;
 
-    @OneToMany
+    @ManyToOne
     private Student student;
 
-    @OneToMany
+    @ManyToOne
     private InstancePredmet instancePredmet;
 }
