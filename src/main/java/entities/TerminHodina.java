@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.List;
 
 /**
  * Created by marek on 4.5.16.
@@ -23,4 +24,7 @@ public class TerminHodina {
 
     @ManyToOne
     private Mistnost mistnost;
+
+    @ManyToOne
+    private List<VyucujiciHodina> vyucujiciHodinaList;
 }

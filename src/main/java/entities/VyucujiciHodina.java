@@ -22,5 +22,4 @@ public class VyucujiciHodina {
     @ManyToOne
     private Vyucujici vyucujici;
 
-
 }

@@ -27,4 +27,7 @@ public class InstancePredmet {
     @OneToMany(mappedBy = "instancePredmet")
     private List<ZaznamPredmet> zaznamPredmetList;
 
+    @OneToMany(mappedBy = "instancePredmet")
+    private List<VyucujiciHodina> vyucujiciHodinaList;
+
 }

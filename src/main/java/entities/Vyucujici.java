@@ -1,6 +1,9 @@
 package entities;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.util.LineInputStream;
+
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by marek on 3.5.16.
@@ -25,4 +28,10 @@ public class Vyucujici {
 
     @Column(nullable = false)
     private String celeJmeno;
+
+    @OneToMany (mappedBy = "vyucujiciHodina")
+    private List<VyucujiciHodina> vyucujiciHodinaList;
+
+    @OneToMany (mappedBy = "zaznamPredmet")
+    private List<ZaznamPredmet> zaznamPredmetList;
 }
