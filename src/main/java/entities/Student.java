@@ -25,7 +25,7 @@ public class Student {
     private String prijmeni;
 
     @Column(nullable = false)
-    private int rocnik;
+    private Integer rocnik;
 
     @OneToMany(mappedBy = "student")
     private List<ZaznamPredmet> zaznamPredmetList;
