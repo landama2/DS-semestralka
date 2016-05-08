@@ -1,11 +1,14 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by urban on 5/4/2016.
  */
-public class form {
+public class Form extends JFrame {
     private JTabbedPane TabPanel;
     private JPanel Panel;
     private JTextField textField1;
@@ -27,5 +30,21 @@ public class form {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
+    }
+
+    public Form() throws HeadlessException {
+        super("Form");
+        setContentPane(Panel);
+        pack();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Usually: getContentPane() to then add components to it.
+
+        pridatStudentaButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showConfirmDialog(Form.this, "You clicked the button");
+            }
+        });
+        setVisible(true);
     }
 }
