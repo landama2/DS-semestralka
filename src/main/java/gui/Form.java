@@ -9,24 +9,26 @@ import java.awt.event.ActionListener;
  * Created by urban on 5/4/2016.
  */
 public class Form extends JFrame {
-    private JTabbedPane TabPanel;
+    private JTabbedPane zalozkovy_panel;
     private JPanel Panel;
-    private JTextField textField1;
-    private JButton pridatStudentaButton;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JComboBox comboBox1;
-    private JList list1;
+    private JTextField student_login_textfield;
+    private JButton student_pridat_button;
+    private JTextField student_jmeno_textfield;
+    private JTextField student_prijmeni_textfield;
+    private JComboBox student_rocnik_combobox;
+    private JList student_seznam_list;
     private JTextField textField4;
     private JTextField textField5;
-    private JComboBox comboBox2;
     private JButton zapsatPredmetButton;
-    private JTextField textField6;
-    private JComboBox comboBox3;
-    private JTree seznam_terminu;
-    private JTextArea coJaVimTextArea;
-    private JTextField podleKoduTextField;
-    private JTextField textField8;
+    private JLabel student_login_label;
+    private JLabel student_jmeno_label;
+    private JLabel student_prijmeni_label;
+    private JLabel student_rocnik_label;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JButton button1;
+    private JTextField textField3;
+    private JList list1;
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
@@ -40,7 +42,7 @@ public class Form extends JFrame {
 
         // Usually: getContentPane() to then add components to it.
 
-        pridatStudentaButton.addActionListener(new ActionListener() {
+        student_pridat_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showConfirmDialog(Form.this, "You clicked the button");
             }
