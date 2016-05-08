@@ -33,4 +33,60 @@ public class ZaznamPredmet {
 
     @ManyToOne
     private InstancePredmet instancePredmet;
+
+    public long getZaznamPredmetId() {
+        return zaznamPredmetId;
+    }
+
+    public void setZaznamPredmetId(long zaznamPredmetId) {
+        this.zaznamPredmetId = zaznamPredmetId;
+    }
+
+    public StavPredmetu getStav() {
+        return stav;
+    }
+
+    public void setStav(StavPredmetu stav) {
+        this.stav = stav;
+    }
+
+    public PoradiZapisu getPoradiZapisu() {
+        return poradiZapisu;
+    }
+
+    public void setPoradiZapisu(PoradiZapisu poradiZapisu) {
+        this.poradiZapisu = poradiZapisu;
+    }
+
+    public Vyucujici getVyucujici() {
+        return vyucujici;
+    }
+
+    public void setVyucujici(Vyucujici vyucujici) {
+        this.vyucujici = vyucujici;
+    }
+
+    public List<TerminZkouska> getTerminZkouskaList() {
+        return terminZkouskaList;
+    }
+
+    public void setTerminZkouskaList(List<TerminZkouska> terminZkouskaList) {
+        this.terminZkouskaList = terminZkouskaList;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public InstancePredmet getInstancePredmet() {
+        return instancePredmet;
+    }
+
+    public void setInstancePredmet(InstancePredmet instancePredmet) {
+        this.instancePredmet = instancePredmet;
+    }
 }

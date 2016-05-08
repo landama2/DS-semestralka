@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="EMF">
+        <class>entities.Student</class>
+        <class>entities.InstancePredmet</class>
+        <class>entities.Mistnost</class>
+        <class>entities.PoradiZapisu</class>
+        <class>entities.Predmet</class>
+        <class>entities.StavPredmetu</class>
+        <class>entities.TerminHodina</class>
+        <class>entities.TerminZkouska</class>
+        <class>entities.Vyucujici</class>
+        <class>entities.VyucujiciHodina</class>
+        <class>entities.ZaznamPredmet</class>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://slon.felk.cvut.cz:5432/student_db16_18"/>
+            <property name="javax.persistence.jdbc.user" value="student_db16_18"/>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.password" value="misajebuh"/>
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+        </properties>
+    </persistence-unit>
+</persistence>

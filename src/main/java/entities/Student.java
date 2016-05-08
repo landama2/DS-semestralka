@@ -12,7 +12,7 @@ public class Student {
 
     @Id
     @GeneratedValue
-    @Column(name = "student_id", nullable = false)
+    @Column(name = "idstudent", nullable = false)
     private long studentId;
 
     @Column(nullable = false, unique = true)
@@ -27,9 +27,54 @@ public class Student {
     @Column(nullable = false)
     private int rocnik;
 
-    @Column(nullable = false)
-    private int rokNastupu;
-
     @OneToMany(mappedBy = "student")
     private List<ZaznamPredmet> zaznamPredmetList;
+
+    public long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(long studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getJmeno() {
+        return jmeno;
+    }
+
+    public void setJmeno(String jmeno) {
+        this.jmeno = jmeno;
+    }
+
+    public String getPrijmeni() {
+        return prijmeni;
+    }
+
+    public void setPrijmeni(String prijmeni) {
+        this.prijmeni = prijmeni;
+    }
+
+    public int getRocnik() {
+        return rocnik;
+    }
+
+    public void setRocnik(int rocnik) {
+        this.rocnik = rocnik;
+    }
+
+    public List<ZaznamPredmet> getZaznamPredmetList() {
+        return zaznamPredmetList;
+    }
+
+    public void setZaznamPredmetList(List<ZaznamPredmet> zaznamPredmetList) {
+        this.zaznamPredmetList = zaznamPredmetList;
+    }
 }

@@ -22,4 +22,46 @@ public class VyucujiciHodina {
     @ManyToOne
     private Vyucujici vyucujici;
 
+    @ManyToOne
+    private TerminHodina terminHodina;
+
+    public long getVyucujiciHodinaId() {
+        return vyucujiciHodinaId;
+    }
+
+    public void setVyucujiciHodinaId(long vyucujiciHodinaId) {
+        this.vyucujiciHodinaId = vyucujiciHodinaId;
+    }
+
+    public char getTypHodiny() {
+        return typHodiny;
+    }
+
+    public void setTypHodiny(char typHodiny) {
+        this.typHodiny = typHodiny;
+    }
+
+    public InstancePredmet getInstancePredmet() {
+        return instancePredmet;
+    }
+
+    public void setInstancePredmet(InstancePredmet instancePredmet) {
+        this.instancePredmet = instancePredmet;
+    }
+
+    public Vyucujici getVyucujici() {
+        return vyucujici;
+    }
+
+    public void setVyucujici(Vyucujici vyucujici) {
+        this.vyucujici = vyucujici;
+    }
+
+    public TerminHodina getTerminHodina() {
+        return terminHodina;
+    }
+
+    public void setTerminHodina(TerminHodina terminHodina) {
+        this.terminHodina = terminHodina;
+    }
 }

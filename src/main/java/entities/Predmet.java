@@ -95,4 +95,12 @@ public class Predmet {
     public void setInstancePredmetuList(List<InstancePredmet> instancePredmetList) {
         this.instancePredmetList = instancePredmetList;
     }
+
+    public void setPredmetId(long predmetId) {
+        this.predmetId = predmetId;
+    }
+
+    public void setInstancePredmetList(List<InstancePredmet> instancePredmetList) {
+        this.instancePredmetList = instancePredmetList;
+    }
 }

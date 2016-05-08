@@ -30,4 +30,51 @@ public class InstancePredmet {
     @OneToMany(mappedBy = "instancePredmet")
     private List<VyucujiciHodina> vyucujiciHodinaList;
 
+    public long getInstancePredmetId() {
+        return instancePredmetId;
+    }
+
+    public void setInstancePredmetId(long instancePredmetId) {
+        this.instancePredmetId = instancePredmetId;
+    }
+
+    public int getSkolniRok() {
+        return skolniRok;
+    }
+
+    public void setSkolniRok(int skolniRok) {
+        this.skolniRok = skolniRok;
+    }
+
+    public Predmet getPredmet() {
+        return predmet;
+    }
+
+    public void setPredmet(Predmet predmet) {
+        this.predmet = predmet;
+    }
+
+    public List<TerminZkouska> getTerminZkouskaList() {
+        return terminZkouskaList;
+    }
+
+    public void setTerminZkouskaList(List<TerminZkouska> terminZkouskaList) {
+        this.terminZkouskaList = terminZkouskaList;
+    }
+
+    public List<ZaznamPredmet> getZaznamPredmetList() {
+        return zaznamPredmetList;
+    }
+
+    public void setZaznamPredmetList(List<ZaznamPredmet> zaznamPredmetList) {
+        this.zaznamPredmetList = zaznamPredmetList;
+    }
+
+    public List<VyucujiciHodina> getVyucujiciHodinaList() {
+        return vyucujiciHodinaList;
+    }
+
+    public void setVyucujiciHodinaList(List<VyucujiciHodina> vyucujiciHodinaList) {
+        this.vyucujiciHodinaList = vyucujiciHodinaList;
+    }
 }

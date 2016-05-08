@@ -30,5 +30,51 @@ public class Mistnost {
     @OneToMany(mappedBy = "mistnost")
     private List<TerminZkouska> terminZkouskaList;
 
+    public long getMistnostId() {
+        return mistnostId;
+    }
 
+    public void setMistnostId(long mistnostId) {
+        this.mistnostId = mistnostId;
+    }
+
+    public String getKodMistnost() {
+        return kodMistnost;
+    }
+
+    public void setKodMistnost(String kodMistnost) {
+        this.kodMistnost = kodMistnost;
+    }
+
+    public int getKapacita() {
+        return kapacita;
+    }
+
+    public void setKapacita(int kapacita) {
+        this.kapacita = kapacita;
+    }
+
+    public String getAdresa() {
+        return adresa;
+    }
+
+    public void setAdresa(String adresa) {
+        this.adresa = adresa;
+    }
+
+    public List<TerminHodina> getTerminHodinaList() {
+        return terminHodinaList;
+    }
+
+    public void setTerminHodinaList(List<TerminHodina> terminHodinaList) {
+        this.terminHodinaList = terminHodinaList;
+    }
+
+    public List<TerminZkouska> getTerminZkouskaList() {
+        return terminZkouskaList;
+    }
+
+    public void setTerminZkouskaList(List<TerminZkouska> terminZkouskaList) {
+        this.terminZkouskaList = terminZkouskaList;
+    }
 }

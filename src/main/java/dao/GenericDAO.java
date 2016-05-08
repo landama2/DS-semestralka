@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by marek on 4.5.16.
  */
-public abstract class GenericDAO<T> {
+public class GenericDAO<T> {
 
     private Class<T> entityClass;
 
@@ -21,8 +21,6 @@ public abstract class GenericDAO<T> {
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMF");
     EntityManager em = entityManagerFactory.createEntityManager();
     EntityTransaction tx = em.getTransaction();
-
-
 
     public void create(T t){
         tx.begin();

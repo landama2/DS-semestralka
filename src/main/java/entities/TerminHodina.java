@@ -25,6 +25,46 @@ public class TerminHodina {
     @ManyToOne
     private Mistnost mistnost;
 
-    @ManyToOne
+    @OneToMany (mappedBy = "terminHodina")
     private List<VyucujiciHodina> vyucujiciHodinaList;
+
+    public long getTerminHodinaId() {
+        return terminHodinaId;
+    }
+
+    public void setTerminHodinaId(long terminHodinaId) {
+        this.terminHodinaId = terminHodinaId;
+    }
+
+    public Time getCasZacatku() {
+        return casZacatku;
+    }
+
+    public void setCasZacatku(Time casZacatku) {
+        this.casZacatku = casZacatku;
+    }
+
+    public int getPocetMinut() {
+        return pocetMinut;
+    }
+
+    public void setPocetMinut(int pocetMinut) {
+        this.pocetMinut = pocetMinut;
+    }
+
+    public Mistnost getMistnost() {
+        return mistnost;
+    }
+
+    public void setMistnost(Mistnost mistnost) {
+        this.mistnost = mistnost;
+    }
+
+    public List<VyucujiciHodina> getVyucujiciHodinaList() {
+        return vyucujiciHodinaList;
+    }
+
+    public void setVyucujiciHodinaList(List<VyucujiciHodina> vyucujiciHodinaList) {
+        this.vyucujiciHodinaList = vyucujiciHodinaList;
+    }
 }

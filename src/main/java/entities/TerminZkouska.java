@@ -34,4 +34,60 @@ public class TerminZkouska {
 
     @ManyToOne
     private InstancePredmet instancePredmet;
+
+    public long getTerminZkouskaId() {
+        return terminZkouskaId;
+    }
+
+    public void setTerminZkouskaId(long terminZkouskaId) {
+        this.terminZkouskaId = terminZkouskaId;
+    }
+
+    public Date getDatum() {
+        return datum;
+    }
+
+    public void setDatum(Date datum) {
+        this.datum = datum;
+    }
+
+    public Time getCasZacatku() {
+        return casZacatku;
+    }
+
+    public void setCasZacatku(Time casZacatku) {
+        this.casZacatku = casZacatku;
+    }
+
+    public int getPocetStudentu() {
+        return pocetStudentu;
+    }
+
+    public void setPocetStudentu(int pocetStudentu) {
+        this.pocetStudentu = pocetStudentu;
+    }
+
+    public Mistnost getMistnost() {
+        return mistnost;
+    }
+
+    public void setMistnost(Mistnost mistnost) {
+        this.mistnost = mistnost;
+    }
+
+    public List<ZaznamPredmet> getZaznamPredmetList() {
+        return zaznamPredmetList;
+    }
+
+    public void setZaznamPredmetList(List<ZaznamPredmet> zaznamPredmetList) {
+        this.zaznamPredmetList = zaznamPredmetList;
+    }
+
+    public InstancePredmet getInstancePredmet() {
+        return instancePredmet;
+    }
+
+    public void setInstancePredmet(InstancePredmet instancePredmet) {
+        this.instancePredmet = instancePredmet;
+    }
 }

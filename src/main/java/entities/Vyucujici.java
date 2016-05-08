@@ -29,9 +29,65 @@ public class Vyucujici {
     @Column(nullable = false)
     private String celeJmeno;
 
-    @OneToMany (mappedBy = "vyucujiciHodina")
+    @OneToMany (mappedBy = "vyucujici")
     private List<VyucujiciHodina> vyucujiciHodinaList;
 
-    @OneToMany (mappedBy = "zaznamPredmet")
+    @OneToMany (mappedBy = "vyucujici")
     private List<ZaznamPredmet> zaznamPredmetList;
+
+    public long getVyucujiciId() {
+        return vyucujiciId;
+    }
+
+    public void setVyucujiciId(long vyucujiciId) {
+        this.vyucujiciId = vyucujiciId;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getJmeno() {
+        return jmeno;
+    }
+
+    public void setJmeno(String jmeno) {
+        this.jmeno = jmeno;
+    }
+
+    public String getPrijmeni() {
+        return prijmeni;
+    }
+
+    public void setPrijmeni(String prijmeni) {
+        this.prijmeni = prijmeni;
+    }
+
+    public String getCeleJmeno() {
+        return celeJmeno;
+    }
+
+    public void setCeleJmeno(String celeJmeno) {
+        this.celeJmeno = celeJmeno;
+    }
+
+    public List<VyucujiciHodina> getVyucujiciHodinaList() {
+        return vyucujiciHodinaList;
+    }
+
+    public void setVyucujiciHodinaList(List<VyucujiciHodina> vyucujiciHodinaList) {
+        this.vyucujiciHodinaList = vyucujiciHodinaList;
+    }
+
+    public List<ZaznamPredmet> getZaznamPredmetList() {
+        return zaznamPredmetList;
+    }
+
+    public void setZaznamPredmetList(List<ZaznamPredmet> zaznamPredmetList) {
+        this.zaznamPredmetList = zaznamPredmetList;
+    }
 }
