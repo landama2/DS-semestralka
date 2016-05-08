@@ -1,4 +1,4 @@
-package Util;
+package utils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
