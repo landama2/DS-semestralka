@@ -30,18 +30,10 @@ public class Form extends JFrame {
     private JTextField student_prijmeni_textfield;
     private JComboBox student_rocnik_combobox;
     private JList student_seznam_list;
-    private JTextField textField4;
-    private JTextField textField5;
-    private JButton zapsatPredmetButton;
     private JLabel student_login_label;
     private JLabel student_jmeno_label;
     private JLabel student_prijmeni_label;
     private JLabel student_rocnik_label;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JButton button1;
-    private JTextField textField3;
-    private JList list1;
     private JTextField student_vyhledat_login;
     private JComboBox student_vyhledat_rocnik;
     private JTextField student_vyhledat_prijmeni;
@@ -58,6 +50,8 @@ public class Form extends JFrame {
     private JTextField textField6;
     private JButton smazatStudentaButton;
     private JPanel student_edit_panel;
+    private JPanel sprava_studentu;
+    private JPanel sprava_vyucujicich;
     private JTable student_results_table;
     private JList student_found_list;
     //DAOs
