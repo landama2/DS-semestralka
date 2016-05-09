@@ -1,10 +1,8 @@
 package dao;
 
 import entities.Student;
-import utils.Utils;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +10,19 @@ import java.util.List;
 /**
  * Created by marek on 4.5.16.
  */
-public class StudentDAO extends GenericDAO {
+public class StudentDAO extends GenericDAO<Student> {
 
     public StudentDAO(Class entityClass) {
         super(entityClass);
     }
 
     public List<Student> findBy(String login, String jmeno, String prijmeni, Integer rocnik) {
+        cq = cb.createQuery(Student.class);
+
+//        ArrayList<Order> orders = new ArrayList<>();
+//        orders.add(cb.desc(root.get("login")));
+//        orders.add(cb.desc(root.get("jmeno")));
+//        orders.add(cb.desc(root.get("prijmeni")));
         if (login==null && jmeno==null & prijmeni==null && rocnik==0) {
             return null;
         }
@@ -42,6 +46,23 @@ public class StudentDAO extends GenericDAO {
 
         for (Predicate p : predicates) {
             cq.where(p);
+        }
+//        for (Order order : orders) {
+//            cq.orderBy(order);
+//        }
+        return em.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Student> findAll() {
+        cq = cb.createQuery(Student.class);
+        ArrayList<Order> orders = new ArrayList<>();
+        orders.add(cb.asc(root.get("prijmeni")));
+        orders.add(cb.asc(root.get("jmeno")));
+        orders.add(cb.asc(root.get("login")));
+        cq.select(cq.from(Student.class));
+        for (Order order : orders){
+            cq.orderBy(order);
         }
         return em.createQuery(cq).getResultList();
     }

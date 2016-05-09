@@ -59,7 +59,7 @@ public class GenericDAO<T> {
     }
 
     public List<T> findAll() {
-        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        CriteriaQuery cq = cb.createQuery();
         cq.select(cq.from(entityClass)).orderBy();
         return em.createQuery(cq).getResultList();
     }

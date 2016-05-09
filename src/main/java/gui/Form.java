@@ -2,11 +2,10 @@ package gui;
 
 import dao.StudentDAO;
 import entities.Student;
+import service.StudentService;
 import utils.Utils;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,8 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Vector;
-
-import static javafx.scene.input.KeyCode.T;
 
 /**
  * Created by urban on 5/4/2016.
@@ -57,9 +54,14 @@ public class Form extends JFrame {
     //DAOs
     StudentDAO studentDAO = new StudentDAO(Student.class);
 
+    //Services
+    StudentService studentService = new StudentService();
+
     //objects
     private Student newStudent;
     private Student updatedStudent;
+
+    private List<Student> students;
 
     DefaultTableModel studentTableModel;
     DefaultListModel allStudentModel;
@@ -93,7 +95,8 @@ public class Form extends JFrame {
                 newStudent.setJmeno(Utils.extractString(student_jmeno_textfield));
                 newStudent.setPrijmeni(Utils.extractString(student_prijmeni_textfield));
                 newStudent.setRocnik(student_rocnik_combobox.getSelectedIndex());
-                studentDAO.create(newStudent);
+                studentService.createStudent(newStudent);
+//                studentDAO.create(newStudent);
                 cleanStudentAdd();
                 cleanStudentEdit();
                 updateStudentList();
@@ -109,6 +112,7 @@ public class Form extends JFrame {
                 List<Student> results = studentDAO.findBy(Utils.extractString(student_vyhledat_login), Utils.extractString(student_vyhledat_jmeno),
                         Utils.extractString(student_vyhledat_prijmeni), student_vyhledat_rocnik.getSelectedIndex());
 
+                students = results;
                 cleanStudentResults();
                 //if there were any results found - put them in the table
                 if (results != null && !results.isEmpty()) {
@@ -134,16 +138,20 @@ public class Form extends JFrame {
                 if (!student_edit_login.getText().equals("") && !student_edit_jmeno.getText().equals("") &&
                         !student_edit_prijmeni.getText().equals("") && student_edit_combobox.getSelectedIndex()!=0) {
                     List<Student> found = studentDAO.findBy(student_edit_login.getText(),null,null,0);
+                    System.out.println("hledany login:"+student_edit_login.getText());
                     if (found.size() == 1) {
                         updatedStudent = found.get(0);
                         updatedStudent.setLogin(student_edit_login.getText());
                         updatedStudent.setJmeno(student_edit_jmeno.getText());
                         updatedStudent.setPrijmeni(student_edit_prijmeni.getText());
                         updatedStudent.setRocnik(student_edit_combobox.getSelectedIndex());
-                        studentDAO.update(updatedStudent);
+                        studentService.updateStudent(updatedStudent);
                         updateStudentList();
                         cleanStudentEdit();
                     } else {
+                        for (Student s : found){
+                            System.out.println(s.getJmeno());
+                        }
                         JOptionPane.showMessageDialog(student_edit_panel, "Student podle zadanych pozadavku nebyl nalezen.");
                         cleanStudentEdit();
                     }
