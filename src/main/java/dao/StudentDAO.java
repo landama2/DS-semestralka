@@ -19,6 +19,9 @@ public class StudentDAO extends GenericDAO {
     }
 
     public List<Student> findBy(String login, String jmeno, String prijmeni, Integer rocnik) {
+        if (login==null && jmeno==null & prijmeni==null && rocnik==0) {
+            return null;
+        }
         ArrayList<Predicate> predicates = new ArrayList<>();
 
         if (login != null) {

@@ -12,8 +12,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
 
-import static javafx.scene.input.KeyCode.T;
-
 /**
  * Created by urban on 5/4/2016.
  */
@@ -43,6 +41,8 @@ public class Form extends JFrame {
     private JTextField student_vyhledat_prijmeni;
     private JTextField student_vyhledat_jmeno;
     private JButton student_vyhledat_button;
+    private JTable student_result_table;
+    private JPanel student_result_panel;
     private JTable student_results_table;
     private JList student_found_list;
     //DAOs
@@ -51,8 +51,10 @@ public class Form extends JFrame {
     //objects
     private Student newStudent;
 
+    DefaultTableModel studentTableModel;
+
     private void createUIComponents() {
-        // TODO: place custom component creation code here
+
     }
 
     public Form() throws HeadlessException {
@@ -67,11 +69,7 @@ public class Form extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        student_vyhledat_rocnik.addItem("");
-        for (int i = 1; i < 8; i++) {
-            student_vyhledat_rocnik.addItem(i + ". rocnik");
-        }
+        prepareStudentSearch();
 
         //adding student
         student_pridat_button.addActionListener(new ActionListener() {
@@ -91,37 +89,62 @@ public class Form extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Searchng for some students...");
-                List<Student> results = studentDAO.findBy(Utils.extractString(student_vyhledat_login),Utils.extractString(student_vyhledat_jmeno),
-                        Utils.extractString(student_vyhledat_prijmeni),student_vyhledat_rocnik.getSelectedIndex());
-                DefaultListModel<Student> model = new DefaultListModel<Student>();
-                DefaultTableModel tableModel = new DefaultTableModel();
+                List<Student> results = studentDAO.findBy(Utils.extractString(student_vyhledat_login), Utils.extractString(student_vyhledat_jmeno),
+                        Utils.extractString(student_vyhledat_prijmeni), student_vyhledat_rocnik.getSelectedIndex());
 
-                tableModel.addColumn("Login");
-                tableModel.addColumn("Jmeno");
-                tableModel.addColumn("Prijmeni");
-                tableModel.addColumn("Rocnik");
-                if (results!=null) {
+                cleanStudentResults();
+                if (results != null && !results.isEmpty()) {
                     for (Student s : results) {
                         Vector data = new Vector();
                         data.add(s.getLogin());
                         data.add(s.getJmeno());
                         data.add(s.getPrijmeni());
                         data.add(s.getRocnik());
-
-                        tableModel.addRow(data);
+                        studentTableModel.addRow(data);
+                        cleanStudentSearch();
                     }
-                    //nefunguje protoze tabulka
-                    student_results_table.setModel(tableModel);
-                    student_results_table.repaint();
-                    student_results_table.setVisible(true);
                 } else {
-                    JOptionPane.showConfirmDialog(student_results_table,"Student podle zadanych pozadavku nebyl nalezen.");
-                    student_vyhledat_login.setText("");
-                    student_vyhledat_jmeno.setText("");
-                    student_vyhledat_prijmeni.setText("");
-                    student_vyhledat_rocnik.setSelectedIndex(0);
+                    JOptionPane.showMessageDialog(student_result_table, "Student podle zadanych pozadavku nebyl nalezen.");
+                    cleanStudentSearch();
                 }
             }
         });
     }
+
+    private void prepareStudentSearch() {
+        student_vyhledat_rocnik.addItem("");
+        for (int i = 1; i < 8; i++) {
+            student_vyhledat_rocnik.addItem(i + ". rocnik");
+        }
+
+        studentTableModel = new DefaultTableModel();
+        studentTableModel.addColumn("Login");
+        studentTableModel.addColumn("Jmeno");
+        studentTableModel.addColumn("Prijmeni");
+        studentTableModel.addColumn("Rocnik");
+
+        Vector header = new Vector();
+        header.add("Login");
+        header.add("Jmeno");
+        header.add("Prijmeni");
+        header.add("Rocnik");
+        studentTableModel.addRow(header);
+        student_result_table.setModel(studentTableModel);
+
+        student_vyhledat_rocnik.setSelectedIndex(0);
+    }
+
+    private void cleanStudentSearch() {
+        student_vyhledat_login.setText("");
+        student_vyhledat_jmeno.setText("");
+        student_vyhledat_prijmeni.setText("");
+        student_vyhledat_rocnik.setSelectedIndex(0);
+    }
+
+    private void cleanStudentResults() {
+        for (int i = studentTableModel.getRowCount() - 1; i > 0; i--) {
+            studentTableModel.removeRow(i);
+        }
+    }
+
 }
