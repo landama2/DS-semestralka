@@ -18,7 +18,6 @@ public class StudentDAO extends GenericDAO<Student> {
 
     public List<Student> findBy(String login, String jmeno, String prijmeni, Integer rocnik) {
         cq = cb.createQuery(Student.class);
-
 //        ArrayList<Order> orders = new ArrayList<>();
 //        orders.add(cb.desc(root.get("login")));
 //        orders.add(cb.desc(root.get("jmeno")));

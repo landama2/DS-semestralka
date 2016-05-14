@@ -1,8 +1,11 @@
 package gui;
 
 import dao.StudentDAO;
+import dao.VyucujiciDAO;
 import entities.Student;
+import entities.Vyucujici;
 import service.StudentService;
+import service.VyucujiciService;
 import utils.Utils;
 
 import javax.swing.*;
@@ -51,7 +54,7 @@ public class Form extends JFrame {
     private JPanel sprava_vyucujicich;
     private JList vyucujici_seznam_list;
     private JTextField vyucujici_pridat_login;
-    private JTextField vuicijici_pridat_jmeno;
+    private JTextField vyucujici_pridat_jmeno;
     private JTextField vyucujici_pridat_prijmeni;
     private JTextField vyucujici_edit_login;
     private JTextField vyucujici_edit_jmeno;
@@ -78,18 +81,23 @@ public class Form extends JFrame {
     private JList student_found_list;
     //DAOs
     StudentDAO studentDAO = new StudentDAO(Student.class);
+    VyucujiciDAO vyucujiciDAO = new VyucujiciDAO(Vyucujici.class);
 
     //Services
     StudentService studentService = new StudentService();
+    VyucujiciService vyucujiciService = new VyucujiciService();
 
     //objects
     private Student newStudent;
     private Student updatedStudent;
+    private Vyucujici newVyucujici;
+    private Vyucujici updatedVyucujici;
 
     private List<Student> students;
 
     DefaultTableModel studentTableModel;
     DefaultListModel allStudentModel;
+    DefaultListModel allVyucujiciModel;
 
     private void createUIComponents() {
 
@@ -204,6 +212,20 @@ public class Form extends JFrame {
                 updateStudentList();
             }
         });
+
+        //add vyucujici button listener
+        pridatVyucujicihoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                newVyucujici = new Vyucujici();
+                newVyucujici.setLogin(Utils.extractString(vyucujici_pridat_login));
+                newVyucujici.setJmeno(Utils.extractString(vyucujici_pridat_jmeno));
+                newVyucujici.setPrijmeni(Utils.extractString(vyucujici_pridat_prijmeni));
+                newVyucujici.setCeleJmeno(newVyucujici.getJmeno() + " " + newVyucujici.getPrijmeni());
+                vyucujiciService.addVyucujici(newVyucujici);
+                cleanVyucujiciAdd();
+                updateVyucujiciList();
+            }
+        });
     }
 
     private void prepareStudentSearch() {
@@ -267,6 +289,7 @@ public class Form extends JFrame {
     private void updateStudentList() {
         allStudentModel = new DefaultListModel();
         List<Student> foundStudents = studentDAO.findAll();
+        students = foundStudents;
         for (int i = 0; i < foundStudents.size(); i++) {
             Vector studentData = new Vector();
             studentData.add(foundStudents.get(i).getLogin());
@@ -280,6 +303,29 @@ public class Form extends JFrame {
             allStudentModel.addElement(studentData);
         }
         student_seznam_list.setModel(allStudentModel);
+    }
+
+    //=============================================
+    //SPRAVA VYUCUJICICH
+    //=============================================
+
+    private void cleanVyucujiciAdd() {
+        vyucujici_pridat_login.setText("");
+        vyucujici_pridat_jmeno.setText("");
+        vyucujici_pridat_prijmeni.setText("");
+    }
+
+    private void updateVyucujiciList() {
+        allVyucujiciModel = new DefaultListModel();
+        List<Vyucujici> foundVyucujici = vyucujiciDAO.findAll();
+        for (int i = 0; i < foundVyucujici.size(); i++) {
+            Vector vyucujiciData = new Vector();
+            vyucujiciData.add(foundVyucujici.get(i).getLogin());
+            vyucujiciData.add(foundVyucujici.get(i).getJmeno());
+            vyucujiciData.add(foundVyucujici.get(i).getPrijmeni());
+            allVyucujiciModel.addElement(vyucujiciData);
+        }
+        vyucujici_seznam_list.setModel(allVyucujiciModel);
     }
 
 }
