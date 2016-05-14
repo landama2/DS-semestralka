@@ -14,7 +14,7 @@ public class Vyucujici {
 
     @Id
     @GeneratedValue
-    @Column(name = "vyucujici_id", nullable = false)
+    @Column(name = "idvyucujici", nullable = false)
     private long vyucujiciId;
 
     @Column(nullable = false, unique = true)

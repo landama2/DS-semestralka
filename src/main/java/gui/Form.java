@@ -79,6 +79,7 @@ public class Form extends JFrame {
     private JSpinner predmet_edit_kredity_spinner;
     private JTable student_results_table;
     private JList student_found_list;
+
     //DAOs
     StudentDAO studentDAO = new StudentDAO(Student.class);
     VyucujiciDAO vyucujiciDAO = new VyucujiciDAO(Vyucujici.class);
