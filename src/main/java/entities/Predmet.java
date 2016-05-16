@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collector;
 
 /**
  * Created by marek on 3.5.16.
@@ -12,14 +13,14 @@ public class Predmet {
 
     @Id
     @GeneratedValue
-    @Column(name = "predmet_id", nullable = false)
+    @Column(name = "idpredmet", nullable = false)
     private long predmetId;
 
     @Column(nullable = false, unique = true)
     private String kod;
 
     @Column(nullable = false)
-    private int kapacita;
+    private String nazev;
 
     private String rozsah;
 
@@ -27,7 +28,7 @@ public class Predmet {
     private int pocetKreditu;
 
     @Column(nullable = false)
-    private char semestr;
+    private Character semestr;
 
     @Column(nullable = false)
     private boolean jeZkouska;
@@ -35,6 +36,13 @@ public class Predmet {
     @OneToMany(mappedBy = "predmet")
     private List<InstancePredmet> instancePredmetList;
 
+    public String getNazev() {
+        return nazev;
+    }
+
+    public void setNazev(String nazev) {
+        this.nazev = nazev;
+    }
 
     public long getPredmetId() {
         return predmetId;
@@ -46,14 +54,6 @@ public class Predmet {
 
     public void setKod(String kod) {
         this.kod = kod;
-    }
-
-    public int getKapacita() {
-        return kapacita;
-    }
-
-    public void setKapacita(int kapacita) {
-        this.kapacita = kapacita;
     }
 
     public String getRozsah() {
@@ -72,11 +72,11 @@ public class Predmet {
         this.pocetKreditu = pocetKreditu;
     }
 
-    public char getSemestr() {
+    public Character getSemestr() {
         return semestr;
     }
 
-    public void setSemestr(char semestr) {
+    public void setSemestr(Character semestr) {
         this.semestr = semestr;
     }
 

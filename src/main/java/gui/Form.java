@@ -1,9 +1,12 @@
 package gui;
 
+import dao.PredmetDAO;
 import dao.StudentDAO;
 import dao.VyucujiciDAO;
+import entities.Predmet;
 import entities.Student;
 import entities.Vyucujici;
+import service.PredmetService;
 import service.StudentService;
 import service.VyucujiciService;
 import utils.Utils;
@@ -75,34 +78,52 @@ public class Form extends JFrame {
     private JButton smazatPredmetButton;
     private JSpinner predmet_edit_kredity_spinner;
     private JPanel sprava_predmetu;
+    private JPanel vyhledavani;
+    private JCheckBox predmet_pridat_zkouska_checkbox;
+    private JCheckBox predmet_edit_zkouska_checkbox;
+    private JPanel predmet_edit_panel;
+    private JRadioButton predmet_pridat_letni;
+    private JRadioButton predmet_pridat_zimni;
+    private JRadioButton predmet_edit_letni;
+    private JRadioButton predmet_edit_zimni;
+    private JPanel predmet_pridat_panel;
     private JTable student_results_table;
     private JList student_found_list;
 
     //DAOs
     StudentDAO studentDAO = new StudentDAO(Student.class);
     VyucujiciDAO vyucujiciDAO = new VyucujiciDAO(Vyucujici.class);
+    PredmetDAO predmetDAO = new PredmetDAO(Predmet.class);
 
     //Services
     StudentService studentService = new StudentService();
     VyucujiciService vyucujiciService = new VyucujiciService();
+    PredmetService predmetService = new PredmetService();
 
     //objects
     private Student newStudent;
     private Student updatedStudent;
     private Vyucujici newVyucujici;
     private Vyucujici updatedVyucujici;
+    private Predmet newPredmet;
+    private Predmet updatedPredmet;
 
     private List<Student> students;
+    private List<Vyucujici> vyucujici;
+    private List<Predmet> predmety;
 
     DefaultTableModel studentTableModel;
     DefaultListModel allStudentModel;
     DefaultListModel allVyucujiciModel;
+    DefaultListModel allPredmetModel;
+    SpinnerNumberModel spinnerNumberModel;
 
     public Form() throws HeadlessException {
         super("Form");
         setContentPane(Panel);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -114,8 +135,15 @@ public class Form extends JFrame {
         allStudentModel = new DefaultListModel();
         updateStudentList();
         updateVyucujiciList();
+        updatePredmetList();
         student_seznam_list.setModel(allStudentModel);
         vyucujici_seznam_list.setModel(allVyucujiciModel);
+        predmet_seznam_list.setModel(allPredmetModel);
+        spinnerNumberModel = new SpinnerNumberModel(0, 0, 30, 1);
+        predmet_pridat_kredity_spinner.setModel(spinnerNumberModel);
+        predmet_edit_kredity_spinner.setModel(spinnerNumberModel);
+        predmet_pridat_letni.setSelected(true);
+        predmet_pridat_zimni.setSelected(false);
 
         //adding student
         student_pridat_button.addActionListener(new ActionListener() {
@@ -132,7 +160,7 @@ public class Form extends JFrame {
                 updateStudentList();
             }
         });
-        setVisible(true);
+
 
         //searching for student by specifics
         student_vyhledat_button.addActionListener(new ActionListener() {
@@ -289,7 +317,107 @@ public class Form extends JFrame {
                 }
             }
         });
+
+        //pridat predmet
+        pridatPredmetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                newPredmet = new Predmet();
+                newPredmet.setKod(Utils.extractString(predmet_pridat_kod));
+                newPredmet.setNazev(Utils.extractString(predmet_pridat_nazev));
+                newPredmet.setRozsah(Utils.extractString(predmet_pridat_rozsah));
+                newPredmet.setPocetKreditu((Integer) predmet_pridat_kredity_spinner.getValue());
+                newPredmet.setJeZkouska(predmet_pridat_zkouska_checkbox.isSelected());
+                if (predmet_pridat_letni.isSelected()) {
+                    newPredmet.setSemestr('l');
+                } else if (predmet_pridat_zimni.isSelected()) {
+                    newPredmet.setSemestr('z');
+                }
+                if (predmetService.addPredmet(newPredmet)) {
+                    System.out.println("Podarilo se pridat novy predmet.");
+                } else {
+                    JOptionPane.showMessageDialog(predmet_pridat_panel,"Nebylo mozno pridat predmet, prosim zkontrolujte zadane udaje.","Pridani se nezdarilo",JOptionPane.ERROR_MESSAGE);
+                }
+                cleanPredmetAdd();
+                updatePredmetList();
+            }
+        });
+
+        //listener na double click over list
+        predmet_seznam_list.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int index = predmet_seznam_list.locationToIndex(e.getPoint());
+                    Vector selectedData = (Vector) allPredmetModel.getElementAt(index);
+                    predmet_edit_kod.setText((String) selectedData.get(0));
+                    predmet_edit_nazev.setText((String) selectedData.get(1));
+                    predmet_edit_rozsah.setText((String) selectedData.get(2));
+                    predmet_edit_kredity_spinner.setValue(selectedData.get(3));
+                    if (selectedData.get(4) != "") {
+                        predmet_edit_zkouska_checkbox.setSelected(true);
+                    } else {
+                        predmet_edit_zkouska_checkbox.setSelected(false);
+                    }
+                    if (selectedData.get(5).equals('l')) {
+                        predmet_edit_letni.setSelected(true);
+                        predmet_edit_zimni.setSelected(false);
+                    } else {
+                        predmet_edit_letni.setSelected(false);
+                        predmet_edit_zimni.setSelected(true);
+                    }
+                }
+            }
+        });
+
+        //update predmet
+        editovatPredmetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if ((predmet_edit_kod.getText() != "") && (predmet_edit_nazev.getText() != "") && (predmet_edit_rozsah.getText() != "") &&
+                        (Integer) predmet_edit_kredity_spinner.getValue() != 0) {
+                    List<Predmet> found = predmetDAO.findBy(Utils.extractString(predmet_edit_kod),null,null,0,null,null);
+                    if (found.size() == 1) {
+                        updatedPredmet = found.get(0);
+                        updatedPredmet.setKod(Utils.extractString(predmet_edit_kod));
+                        updatedPredmet.setNazev(Utils.extractString(predmet_edit_nazev));
+                        updatedPredmet.setRozsah(Utils.extractString(predmet_edit_rozsah));
+                        updatedPredmet.setPocetKreditu((Integer) predmet_edit_kredity_spinner.getValue());
+                        updatedPredmet.setJeZkouska(predmet_edit_zkouska_checkbox.isSelected());
+                        if (predmet_edit_letni.isSelected()) {
+                            updatedPredmet.setSemestr('l');
+                        } else {
+                            updatedPredmet.setSemestr('z');
+                        }
+                        if (predmetService.updatePredmet(updatedPredmet)) {
+                            System.out.println("Predmet uspesne updatovan.");
+                        } else {
+                            JOptionPane.showMessageDialog(predmet_edit_panel,"Predmet nebylo mozno updatovat.","Update se nepodaril",JOptionPane.ERROR_MESSAGE);
+                        }
+                        updatePredmetList();
+                        cleanPredmetEdit();
+                    }
+                }
+            }
+        });
+
+        //smazat predmet
+        smazatPredmetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (!predmet_edit_kod.getText().equals("") && !predmet_edit_nazev.getText().equals("") &&
+                        !predmet_edit_rozsah.getText().equals("") && (Integer) predmet_edit_kredity_spinner.getValue() != 0) {
+                    List<Predmet> foundPredmet = predmetDAO.findBy(Utils.extractString(predmet_edit_kod),null,null,0,null,null);
+                    if (foundPredmet.size() == 1) {
+                        updatedPredmet = foundPredmet.get(0);
+                        predmetDAO.delete(updatedPredmet);
+                        updatePredmetList();
+                        cleanPredmetEdit();
+                    }
+                }
+            }
+        });
     }
+
+    //==========================
+    //STUDENT SEARCH - MAY BE DELETED
+    //==========================
 
     private void prepareStudentSearch() {
         student_vyhledat_rocnik.addItem("");
@@ -327,6 +455,10 @@ public class Form extends JFrame {
         student_vyhledat_prijmeni.setText("");
         student_vyhledat_rocnik.setSelectedIndex(0);
     }
+
+    //==============================
+    //SPRAVA STUDENTU
+    //==============================
 
     private void cleanStudentAdd() {
         student_login_textfield.setText("");
@@ -398,4 +530,48 @@ public class Form extends JFrame {
         vyucujici_seznam_list.clearSelection();
     }
 
+    //=================================
+    //SPRAVA PREDMETU
+    //=================================
+
+    private void cleanPredmetAdd() {
+        predmet_pridat_kod.setText("");
+        predmet_pridat_nazev.setText("");
+        predmet_pridat_rozsah.setText("");
+        predmet_pridat_kredity_spinner.setValue(0);
+        predmet_pridat_zkouska_checkbox.setSelected(false);
+        predmet_pridat_letni.setSelected(true);
+        predmet_pridat_zimni.setSelected(false);
+    }
+
+    private void cleanPredmetEdit() {
+        predmet_edit_kod.setText("");
+        predmet_edit_nazev.setText("");
+        predmet_edit_rozsah.setText("");
+        predmet_edit_kredity_spinner.setValue(0);
+        predmet_edit_zkouska_checkbox.setSelected(false);
+        predmet_edit_letni.setSelected(true);
+        predmet_edit_zimni.setSelected(false);
+        predmet_seznam_list.clearSelection();
+    }
+
+    private void updatePredmetList() {
+        allPredmetModel = new DefaultListModel();
+        predmety = predmetDAO.findAll();
+        for (Predmet p : predmety) {
+            Vector predmetData = new Vector();
+            predmetData.add(p.getKod());
+            predmetData.add(p.getNazev());
+            predmetData.add(p.getRozsah());
+            predmetData.add(p.getPocetKreditu());
+            if (p.isJeZkouska()) {
+                predmetData.add("zkouska vyzadovana");
+            } else {
+                predmetData.add("");
+            }
+            predmetData.add(p.getSemestr());
+            allPredmetModel.addElement(predmetData);
+        }
+        predmet_seznam_list.setModel(allPredmetModel);
+    }
 }

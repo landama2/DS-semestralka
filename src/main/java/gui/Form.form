@@ -456,7 +456,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="5d94a" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="5d94a" binding="predmet_pridat_panel" layout-manager="GridLayoutManager" row-count="7" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
@@ -474,7 +474,7 @@
                       </component>
                       <component id="1e077" class="javax.swing.JTextField" binding="predmet_pridat_kod">
                         <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -490,7 +490,7 @@
                       </component>
                       <component id="c12f4" class="javax.swing.JTextField" binding="predmet_pridat_nazev">
                         <constraints>
-                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -506,7 +506,7 @@
                       </component>
                       <component id="4ddc9" class="javax.swing.JTextField" binding="predmet_pridat_rozsah">
                         <constraints>
-                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -522,21 +522,45 @@
                       </component>
                       <component id="10d9d" class="javax.swing.JSpinner" binding="predmet_pridat_kredity_spinner">
                         <constraints>
-                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
                       </component>
                       <component id="7934" class="javax.swing.JButton" binding="pridatPredmetButton" default-binding="true">
                         <constraints>
-                          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="6" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Pridat predmet"/>
                         </properties>
                       </component>
+                      <component id="9e8d" class="javax.swing.JCheckBox" binding="predmet_pridat_zkouska_checkbox">
+                        <constraints>
+                          <grid row="5" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Ukonceno zkouskou"/>
+                        </properties>
+                      </component>
+                      <component id="d9209" class="javax.swing.JRadioButton" binding="predmet_pridat_letni">
+                        <constraints>
+                          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Letni semestr"/>
+                        </properties>
+                      </component>
+                      <component id="8f607" class="javax.swing.JRadioButton" binding="predmet_pridat_zimni">
+                        <constraints>
+                          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Zimni semestr"/>
+                        </properties>
+                      </component>
                     </children>
                   </grid>
-                  <grid id="e8241" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="e8241" binding="predmet_edit_panel" layout-manager="GridLayoutManager" row-count="8" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
@@ -554,7 +578,7 @@
                       </component>
                       <component id="e01bd" class="javax.swing.JTextField" binding="predmet_edit_kod">
                         <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -586,7 +610,7 @@
                       </component>
                       <component id="dcded" class="javax.swing.JTextField" binding="predmet_edit_nazev">
                         <constraints>
-                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -594,7 +618,7 @@
                       </component>
                       <component id="2fbb1" class="javax.swing.JTextField" binding="predmet_edit_rozsah">
                         <constraints>
-                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -602,7 +626,7 @@
                       </component>
                       <component id="702ed" class="javax.swing.JButton" binding="editovatPredmetButton" default-binding="true">
                         <constraints>
-                          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="6" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Editovat predmet"/>
@@ -610,16 +634,40 @@
                       </component>
                       <component id="1ed4c" class="javax.swing.JSpinner" binding="predmet_edit_kredity_spinner">
                         <constraints>
-                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
                       </component>
                       <component id="21031" class="javax.swing.JButton" binding="smazatPredmetButton" default-binding="true">
                         <constraints>
-                          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="7" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Smazat predmet"/>
+                        </properties>
+                      </component>
+                      <component id="220c6" class="javax.swing.JCheckBox" binding="predmet_edit_zkouska_checkbox">
+                        <constraints>
+                          <grid row="5" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Ukonceno zkouskou"/>
+                        </properties>
+                      </component>
+                      <component id="5248d" class="javax.swing.JRadioButton" binding="predmet_edit_letni">
+                        <constraints>
+                          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Letni semestr"/>
+                        </properties>
+                      </component>
+                      <component id="ce985" class="javax.swing.JRadioButton" binding="predmet_edit_zimni">
+                        <constraints>
+                          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Zimni semestr"/>
                         </properties>
                       </component>
                     </children>
@@ -640,12 +688,16 @@
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <autoscrolls value="true"/>
+                    </properties>
                     <border type="none" title="Sprava predmetu"/>
                     <children>
                       <component id="eb7cb" class="javax.swing.JList" binding="predmet_seznam_list">
                         <constraints/>
-                        <properties/>
+                        <properties>
+                          <model/>
+                        </properties>
                       </component>
                     </children>
                   </scrollpane>
@@ -658,7 +710,7 @@
               </vspacer>
             </children>
           </grid>
-          <grid id="c99af" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="c99af" binding="vyhledavani" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Vyhledavani"/>
@@ -774,4 +826,14 @@
       </tabbedpane>
     </children>
   </grid>
+  <buttonGroups>
+    <group name="predmet_pridat_semestr_radiogroup">
+      <member id="d9209"/>
+      <member id="8f607"/>
+    </group>
+    <group name="predmet_edit_semestr_radiogroup">
+      <member id="5248d"/>
+      <member id="ce985"/>
+    </group>
+  </buttonGroups>
 </form>
