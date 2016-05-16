@@ -47,7 +47,6 @@ public class Form extends JFrame {
     private JTextField student_edit_prijmeni;
     private JButton editovatStudentaButton;
     private JComboBox student_edit_combobox;
-    private JTextField textField6;
     private JButton smazatStudentaButton;
     private JPanel student_edit_panel;
     private JPanel sprava_studentu;
@@ -210,7 +209,23 @@ public class Form extends JFrame {
         //delete student
         smazatStudentaButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                updateStudentList();
+                if (!student_edit_login.getText().equals("") && !student_edit_jmeno.getText().equals("") &&
+                        !student_edit_prijmeni.getText().equals("") && student_edit_combobox.getSelectedIndex()!=0) {
+                    List<Student> found = studentDAO.findBy(student_edit_login.getText(),null,null,0);
+                    System.out.println("hledany login:"+student_edit_login.getText());
+                    if (found.size() == 1) {
+                        updatedStudent = found.get(0);
+                        studentDAO.delete(updatedStudent);
+                        updateStudentList();
+                        cleanStudentEdit();
+                    } else {
+                        for (Student s : found){
+                            System.out.println(s.getJmeno());
+                        }
+                        JOptionPane.showMessageDialog(student_edit_panel, "Student podle zadanych pozadavku nebyl nalezen.");
+                        cleanStudentEdit();
+                    }
+                }
             }
         });
 
