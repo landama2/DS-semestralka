@@ -1,7 +1,5 @@
 package entities;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.LineInputStream;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -21,13 +19,13 @@ public class Vyucujici {
     private String login;
 
     @Column(nullable = false)
-    private String jmeno;
+    private String krestni_jmeno;
 
     @Column(nullable = false)
     private String prijmeni;
 
     @Column(nullable = false)
-    private String celeJmeno;
+    private String cele_jmeno;
 
     @OneToMany (mappedBy = "vyucujici")
     private List<VyucujiciHodina> vyucujiciHodinaList;
@@ -51,12 +49,12 @@ public class Vyucujici {
         this.login = login;
     }
 
-    public String getJmeno() {
-        return jmeno;
+    public String getKrestni_jmeno() {
+        return krestni_jmeno;
     }
 
-    public void setJmeno(String jmeno) {
-        this.jmeno = jmeno;
+    public void setKrestni_jmeno(String jmeno) {
+        this.krestni_jmeno = jmeno;
     }
 
     public String getPrijmeni() {
@@ -67,12 +65,12 @@ public class Vyucujici {
         this.prijmeni = prijmeni;
     }
 
-    public String getCeleJmeno() {
-        return celeJmeno;
+    public String getCele_jmeno() {
+        return cele_jmeno;
     }
 
-    public void setCeleJmeno(String celeJmeno) {
-        this.celeJmeno = celeJmeno;
+    public void setCele_jmeno(String celeJmeno) {
+        this.cele_jmeno = celeJmeno;
     }
 
     public List<VyucujiciHodina> getVyucujiciHodinaList() {

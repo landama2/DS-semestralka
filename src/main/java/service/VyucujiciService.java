@@ -18,17 +18,26 @@ public class VyucujiciService {
         return true;
     }
 
+    public boolean updateVyucujici(Vyucujici vyucujici) {
+        if (isNotValid(vyucujici)) {
+            return false;
+        } else {
+            vyucujiciDAO.update(vyucujici);
+            return true;
+        }
+    }
+
     private boolean isNotValid(Vyucujici vyucujici) {
         if (vyucujici.getLogin() == null) {
             return true;
         }
-        if (vyucujici.getJmeno() == null) {
+        if (vyucujici.getKrestni_jmeno() == null) {
             return true;
         }
         if (vyucujici.getPrijmeni() == null) {
             return true;
         }
-        if (vyucujici.getCeleJmeno() == null) {
+        if (vyucujici.getCele_jmeno() == null) {
             return true;
         }
         return false;

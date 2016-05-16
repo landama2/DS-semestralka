@@ -60,7 +60,6 @@ public class Form extends JFrame {
     private JTextField vyucujici_edit_prijmeni;
     private JButton pridatVyucujicihoButton;
     private JButton editovatVyucujicihoButton;
-    private JTextField vyucujici_smazat_login;
     private JButton smazatVyucujicihoButton;
     private JPanel vyucujici_sprava_panel;
     private JList predmet_seznam_list;
@@ -73,9 +72,9 @@ public class Form extends JFrame {
     private JTextField predmet_edit_rozsah;
     private JButton pridatPredmetButton;
     private JButton editovatPredmetButton;
-    private JTextField predmet_smazat_kod;
     private JButton smazatPredmetButton;
     private JSpinner predmet_edit_kredity_spinner;
+    private JPanel sprava_predmetu;
     private JTable student_results_table;
     private JList student_found_list;
 
@@ -99,10 +98,6 @@ public class Form extends JFrame {
     DefaultListModel allStudentModel;
     DefaultListModel allVyucujiciModel;
 
-    private void createUIComponents() {
-
-    }
-
     public Form() throws HeadlessException {
         super("Form");
         setContentPane(Panel);
@@ -118,7 +113,9 @@ public class Form extends JFrame {
         prepareStudentSearch();
         allStudentModel = new DefaultListModel();
         updateStudentList();
+        updateVyucujiciList();
         student_seznam_list.setModel(allStudentModel);
+        vyucujici_seznam_list.setModel(allVyucujiciModel);
 
         //adding student
         student_pridat_button.addActionListener(new ActionListener() {
@@ -219,9 +216,6 @@ public class Form extends JFrame {
                         updateStudentList();
                         cleanStudentEdit();
                     } else {
-                        for (Student s : found){
-                            System.out.println(s.getJmeno());
-                        }
                         JOptionPane.showMessageDialog(student_edit_panel, "Student podle zadanych pozadavku nebyl nalezen.");
                         cleanStudentEdit();
                     }
@@ -234,12 +228,65 @@ public class Form extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 newVyucujici = new Vyucujici();
                 newVyucujici.setLogin(Utils.extractString(vyucujici_pridat_login));
-                newVyucujici.setJmeno(Utils.extractString(vyucujici_pridat_jmeno));
+                newVyucujici.setKrestni_jmeno(Utils.extractString(vyucujici_pridat_jmeno));
                 newVyucujici.setPrijmeni(Utils.extractString(vyucujici_pridat_prijmeni));
-                newVyucujici.setCeleJmeno(newVyucujici.getJmeno() + " " + newVyucujici.getPrijmeni());
+                newVyucujici.setCele_jmeno(newVyucujici.getKrestni_jmeno() + " " + newVyucujici.getPrijmeni());
                 vyucujiciService.addVyucujici(newVyucujici);
                 cleanVyucujiciAdd();
                 updateVyucujiciList();
+            }
+        });
+
+        //smazat vyucujiciho
+        smazatVyucujicihoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (!vyucujici_edit_login.getText().equals("") && !vyucujici_edit_jmeno.getText().equals("") &&
+                        !vyucujici_edit_prijmeni.getText().equals("")) {
+                    List<Vyucujici> foundVyucujici = vyucujiciDAO.findBy(Utils.extractString(vyucujici_edit_login),null,null);
+                    if (foundVyucujici.size() == 1) {
+                        updatedVyucujici = foundVyucujici.get(0);
+                        vyucujiciDAO.delete(updatedVyucujici);
+                        updateVyucujiciList();
+                        cleanVyucujiciEdit();
+                    }
+                }
+            }
+        });
+
+        //double click choose vyucujici
+        vyucujici_seznam_list.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int index = vyucujici_seznam_list.locationToIndex(e.getPoint());
+                    Vector selectedData = (Vector) allVyucujiciModel.getElementAt(index);
+                    vyucujici_edit_login.setText((String) selectedData.get(0));
+                    vyucujici_edit_jmeno.setText((String) selectedData.get(1));
+                    vyucujici_edit_prijmeni.setText((String) selectedData.get(2));
+                }
+            }
+        });
+
+        //update vyucujiciho
+        editovatVyucujicihoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (!vyucujici_edit_login.getText().equals("") && !vyucujici_edit_jmeno.getText().equals("") &&
+                        !vyucujici_edit_prijmeni.getText().equals("")) {
+                    List<Vyucujici> found = vyucujiciDAO.findBy(Utils.extractString(vyucujici_edit_login),null,null);
+                    if (found.size() == 1) {
+                        updatedVyucujici = found.get(0);
+                        updatedVyucujici.setLogin(Utils.extractString(vyucujici_edit_login));
+                        updatedVyucujici.setKrestni_jmeno(Utils.extractString(vyucujici_edit_jmeno));
+                        updatedVyucujici.setPrijmeni(Utils.extractString(vyucujici_edit_prijmeni));
+                        updatedVyucujici.setCele_jmeno(updatedVyucujici.getKrestni_jmeno() + " " + updatedVyucujici.getPrijmeni());
+                        if (vyucujiciService.updateVyucujici(updatedVyucujici)) {
+                            System.out.println("Vyucujici successfuly updated.");
+                        } else {
+                            JOptionPane.showMessageDialog(vyucujici_sprava_panel,"Vyucujiciho nebylo mozno updatovat.","Update se nepodaril",JOptionPane.ERROR_MESSAGE);
+                        }
+                        updateVyucujiciList();
+                        cleanVyucujiciEdit();
+                    }
+                }
             }
         });
     }
@@ -337,11 +384,18 @@ public class Form extends JFrame {
         for (int i = 0; i < foundVyucujici.size(); i++) {
             Vector vyucujiciData = new Vector();
             vyucujiciData.add(foundVyucujici.get(i).getLogin());
-            vyucujiciData.add(foundVyucujici.get(i).getJmeno());
+            vyucujiciData.add(foundVyucujici.get(i).getKrestni_jmeno());
             vyucujiciData.add(foundVyucujici.get(i).getPrijmeni());
             allVyucujiciModel.addElement(vyucujiciData);
         }
         vyucujici_seznam_list.setModel(allVyucujiciModel);
+    }
+
+    private void cleanVyucujiciEdit() {
+        vyucujici_edit_login.setText("");
+        vyucujici_edit_jmeno.setText("");
+        vyucujici_edit_prijmeni.setText("");
+        vyucujici_seznam_list.clearSelection();
     }
 
 }
