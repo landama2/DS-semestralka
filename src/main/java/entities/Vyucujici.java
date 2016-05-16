@@ -18,14 +18,14 @@ public class Vyucujici {
     @Column(nullable = false, unique = true)
     private String login;
 
-    @Column(nullable = false)
-    private String krestni_jmeno;
+    @Column(name = "krestni_jmeno",nullable = false)
+    private String jmeno;
 
     @Column(nullable = false)
     private String prijmeni;
 
-    @Column(nullable = false)
-    private String cele_jmeno;
+    @Column(name = "cele_jmeno", nullable = false)
+    private String celeJmeno;
 
     @OneToMany (mappedBy = "vyucujici")
     private List<VyucujiciHodina> vyucujiciHodinaList;
@@ -49,12 +49,12 @@ public class Vyucujici {
         this.login = login;
     }
 
-    public String getKrestni_jmeno() {
-        return krestni_jmeno;
+    public String getJmeno() {
+        return jmeno;
     }
 
-    public void setKrestni_jmeno(String jmeno) {
-        this.krestni_jmeno = jmeno;
+    public void setJmeno(String jmeno) {
+        this.jmeno = jmeno;
     }
 
     public String getPrijmeni() {
@@ -65,12 +65,12 @@ public class Vyucujici {
         this.prijmeni = prijmeni;
     }
 
-    public String getCele_jmeno() {
-        return cele_jmeno;
+    public String getCeleJmeno() {
+        return celeJmeno;
     }
 
-    public void setCele_jmeno(String celeJmeno) {
-        this.cele_jmeno = celeJmeno;
+    public void setCeleJmeno(String celeJmeno) {
+        this.celeJmeno = celeJmeno;
     }
 
     public List<VyucujiciHodina> getVyucujiciHodinaList() {

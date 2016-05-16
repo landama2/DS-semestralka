@@ -228,9 +228,9 @@ public class Form extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 newVyucujici = new Vyucujici();
                 newVyucujici.setLogin(Utils.extractString(vyucujici_pridat_login));
-                newVyucujici.setKrestni_jmeno(Utils.extractString(vyucujici_pridat_jmeno));
+                newVyucujici.setJmeno(Utils.extractString(vyucujici_pridat_jmeno));
                 newVyucujici.setPrijmeni(Utils.extractString(vyucujici_pridat_prijmeni));
-                newVyucujici.setCele_jmeno(newVyucujici.getKrestni_jmeno() + " " + newVyucujici.getPrijmeni());
+                newVyucujici.setCeleJmeno(newVyucujici.getJmeno() + " " + newVyucujici.getPrijmeni());
                 vyucujiciService.addVyucujici(newVyucujici);
                 cleanVyucujiciAdd();
                 updateVyucujiciList();
@@ -275,9 +275,9 @@ public class Form extends JFrame {
                     if (found.size() == 1) {
                         updatedVyucujici = found.get(0);
                         updatedVyucujici.setLogin(Utils.extractString(vyucujici_edit_login));
-                        updatedVyucujici.setKrestni_jmeno(Utils.extractString(vyucujici_edit_jmeno));
+                        updatedVyucujici.setJmeno(Utils.extractString(vyucujici_edit_jmeno));
                         updatedVyucujici.setPrijmeni(Utils.extractString(vyucujici_edit_prijmeni));
-                        updatedVyucujici.setCele_jmeno(updatedVyucujici.getKrestni_jmeno() + " " + updatedVyucujici.getPrijmeni());
+                        updatedVyucujici.setCeleJmeno(updatedVyucujici.getJmeno() + " " + updatedVyucujici.getPrijmeni());
                         if (vyucujiciService.updateVyucujici(updatedVyucujici)) {
                             System.out.println("Vyucujici successfuly updated.");
                         } else {
@@ -384,7 +384,7 @@ public class Form extends JFrame {
         for (int i = 0; i < foundVyucujici.size(); i++) {
             Vector vyucujiciData = new Vector();
             vyucujiciData.add(foundVyucujici.get(i).getLogin());
-            vyucujiciData.add(foundVyucujici.get(i).getKrestni_jmeno());
+            vyucujiciData.add(foundVyucujici.get(i).getJmeno());
             vyucujiciData.add(foundVyucujici.get(i).getPrijmeni());
             allVyucujiciModel.addElement(vyucujiciData);
         }

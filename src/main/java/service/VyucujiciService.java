@@ -31,13 +31,13 @@ public class VyucujiciService {
         if (vyucujici.getLogin() == null) {
             return true;
         }
-        if (vyucujici.getKrestni_jmeno() == null) {
+        if (vyucujici.getJmeno() == null) {
             return true;
         }
         if (vyucujici.getPrijmeni() == null) {
             return true;
         }
-        if (vyucujici.getCele_jmeno() == null) {
+        if (vyucujici.getCeleJmeno() == null) {
             return true;
         }
         return false;
