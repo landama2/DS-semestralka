@@ -24,16 +24,16 @@ public class InstancePredmetDAO extends GenericDAO<InstancePredmet>{
         }
 
         ArrayList<Predicate> predicates = new ArrayList<>();
-
-        if (predmet != null) {
-            predicates.add(cb.equal(root.get("predmet"),predmet));
-        }
         if (skolnirok != null && skolnirok != 0) {
             predicates.add(cb.equal(root.get("skolniRok"),skolnirok));
         }
-        for (Predicate p : predicates) {
-            cq.where(p);
+        if (predmet != null) {
+            predicates.add(cb.equal(root.get("predmet"),predmet));
         }
+//        for (Predicate p : predicates) {
+//            cq.where(p);
+//        }
+        cq.select(root).where(predicates.toArray(new Predicate[]{}));
         return em.createQuery(cq).getResultList();
     }
 }

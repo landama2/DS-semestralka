@@ -52,15 +52,11 @@ public class VypsaniPredmetu extends JDialog {
         //kliknuto na vypsat predmet
         vypsatPredmetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                List<InstancePredmet> found = instancePredmetDAO.findBy(selectedPredmet, (Integer) predmet_vypsat_rok_spinner.getValue());
-                if (found == null || found.size() == 0) {
-                    newInstancePredmet = new InstancePredmet();
-                    newInstancePredmet.setPredmet(selectedPredmet);
-                    newInstancePredmet.setSkolniRok((Integer) predmet_vypsat_rok_spinner.getValue());
-                    instancePredmetService.createInstance(newInstancePredmet);
-                    if (!predmetService.addInstanceAndUpdate(selectedPredmet, newInstancePredmet)) {
-                        instancePredmetService.deleteInstance(newInstancePredmet);
-                    }
+                newInstancePredmet = new InstancePredmet();
+                newInstancePredmet.setPredmet(selectedPredmet);
+                newInstancePredmet.setSkolniRok((Integer) predmet_vypsat_rok_spinner.getValue());
+                if (predmetService.addInstanceAndUpdate(newInstancePredmet)) {
+                    System.out.println("Instance uspesne vytvorena.");
                 } else {
                     JOptionPane.showMessageDialog(predmet_vypsat_pane, "Instance nejde vytvorit, jiz existuje.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -76,6 +72,7 @@ public class VypsaniPredmetu extends JDialog {
 
     private void setSpinnerModel() {
         predmet_vypsat_rok_spinner.setModel(new SpinnerNumberModel(2016,2016,2030,1));
+        predmet_vypsat_rok_spinner.setEditor(new JSpinner.NumberEditor(predmet_vypsat_rok_spinner,"#"));
     }
 
 
@@ -87,6 +84,6 @@ public class VypsaniPredmetu extends JDialog {
         dialog.setLocationRelativeTo(c);
         dialog.pack();
         dialog.setVisible(true);
-        System.exit(0);
+//        System.exit(0);
     }
 }

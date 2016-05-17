@@ -43,9 +43,7 @@ public class StudentDAO extends GenericDAO<Student> {
             predicates.add(cb.equal(root.get("rocnik"),rocnik));
         }
 
-        for (Predicate p : predicates) {
-            cq.where(p);
-        }
+        cq.select(root).where(predicates.toArray(new Predicate[]{}));
 //        for (Order order : orders) {
 //            cq.orderBy(order);
 //        }

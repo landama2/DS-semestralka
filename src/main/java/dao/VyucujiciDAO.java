@@ -40,12 +40,7 @@ public class VyucujiciDAO extends GenericDAO<Vyucujici> {
             predicates.add(cb.equal(root.get("prijmeni"),prijmeni));
         }
 
-        for (Predicate p : predicates) {
-            cq.where(p);
-        }
-//        for (Order order : orders) {
-//            cq.orderBy(order);
-//        }
+        cq.select(root).where(predicates.toArray(new Predicate[]{}));
         return em.createQuery(cq).getResultList();
     }
 

@@ -1,5 +1,6 @@
 package service;
 
+import dao.InstancePredmetDAO;
 import dao.PredmetDAO;
 import entities.InstancePredmet;
 import entities.Predmet;
@@ -13,6 +14,7 @@ import java.util.List;
 public class PredmetService {
 
     PredmetDAO predmetDAO = new PredmetDAO(Predmet.class);
+    InstancePredmetDAO instancePredmetDAO = new InstancePredmetDAO(InstancePredmet.class);
 
     public boolean addPredmet(Predmet predmet) {
         if (!isNotValid(predmet)) {
@@ -30,24 +32,32 @@ public class PredmetService {
         return false;
     }
 
-    public boolean addInstanceAndUpdate(Predmet predmet, InstancePredmet instancePredmet) {
-        List<InstancePredmet> currentInstances = predmet.getInstancePredmetList();
-        if (currentInstances == null) {
-            currentInstances = new ArrayList<>();
-            currentInstances.add(instancePredmet);
-            predmet.setInstancePredmetList(currentInstances);
-            predmetDAO.update(predmet);
-            return true;
-        } else {
-            if (!currentInstances.contains(instancePredmet)) {
+    public boolean addInstanceAndUpdate(InstancePredmet instancePredmet) {
+        Predmet predmet = instancePredmet.getPredmet();
+        List<InstancePredmet> found = instancePredmetDAO.findBy(predmet, instancePredmet.getSkolniRok());
+        System.out.println(found.size());
+        for (InstancePredmet i : found) {
+            System.out.println(i.getPredmet().getNazev() + " " + i.getSkolniRok());
+        }
+        if (found == null || found.size() == 0) {
+            List<InstancePredmet> currentInstances = predmet.getInstancePredmetList();
+            if (currentInstances == null) {
+                currentInstances = new ArrayList<>();
                 currentInstances.add(instancePredmet);
                 predmet.setInstancePredmetList(currentInstances);
+                instancePredmetDAO.create(instancePredmet);
                 predmetDAO.update(predmet);
                 return true;
             } else {
-                return false;
+                currentInstances.add(instancePredmet);
+                predmet.setInstancePredmetList(currentInstances);
+                instancePredmetDAO.create(instancePredmet);
+                predmetDAO.update(predmet);
+                return true;
+
             }
         }
+        return false;
     }
 
     private boolean isNotValid(Predmet predmet) {

@@ -19,6 +19,7 @@ public class InstancePredmet {
     private int skolniRok;
 
     @ManyToOne
+    @JoinColumn(name = "predmet_idpredmet")
     private Predmet predmet;
 
     @OneToMany(mappedBy = "instancePredmet")

@@ -623,6 +623,9 @@ public class Form extends JFrame {
         item.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println(predmet_seznam_list.getSelectedIndex() + " selected index");
+                System.out.println(predmet_seznam_list.getSelectedValue() + " selected value");
+                System.out.println(predmety.get(predmet_seznam_list.getSelectedIndex()).getNazev() + " selected predmet");
                 VypsaniPredmetu.create(predmety.get(predmet_seznam_list.getSelectedIndex()),zalozkovy_panel);
             }
         });

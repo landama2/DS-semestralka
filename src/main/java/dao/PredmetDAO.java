@@ -42,9 +42,7 @@ public class PredmetDAO extends GenericDAO<Predmet> {
         if (semestr != null) {
             predicates.add(cb.equal(root.get("semestr"),semestr));
         }
-        for (Predicate p : predicates) {
-            cq.where(p);
-        }
+        cq.select(root).where(predicates.toArray(new Predicate[]{}));
         return em.createQuery(cq).getResultList();
     }
 
