@@ -133,8 +133,10 @@ public class Form extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //PREPARE FORM
         prepareStudentSearch();
-        allStudentModel = new DefaultListModel();
+
         updateStudentList();
         updateVyucujiciList();
         updatePredmetList();
@@ -147,23 +149,12 @@ public class Form extends JFrame {
         predmet_pridat_letni.setSelected(true);
         predmet_pridat_zimni.setSelected(false);
 
-        //adding student
-        student_pridat_button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                newStudent = new Student();
-                newStudent.setLogin(Utils.extractString(student_login_textfield));
-                newStudent.setJmeno(Utils.extractString(student_jmeno_textfield));
-                newStudent.setPrijmeni(Utils.extractString(student_prijmeni_textfield));
-                newStudent.setRocnik(student_rocnik_combobox.getSelectedIndex());
-                studentService.createStudent(newStudent);
-//                studentDAO.create(newStudent);
-                cleanStudentAdd();
-                cleanStudentEdit();
-                updateStudentList();
-            }
-        });
 
-
+        //===================================
+        //===================================
+        //VYHLEDAVANI TAB
+        //===================================
+        //===================================
         //searching for student by specifics
         student_vyhledat_button.addActionListener(new ActionListener() {
             @Override
@@ -192,26 +183,44 @@ public class Form extends JFrame {
             }
         });
 
+        //===================================
+        //===================================
+        //SPRAVA STUDENTU TAB
+        //===================================
+        //===================================
+
+        //adding student
+        student_pridat_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                newStudent = new Student();
+                newStudent.setLogin(Utils.extractString(student_login_textfield));
+                newStudent.setJmeno(Utils.extractString(student_jmeno_textfield));
+                newStudent.setPrijmeni(Utils.extractString(student_prijmeni_textfield));
+                newStudent.setRocnik(student_rocnik_combobox.getSelectedIndex());
+                studentService.createStudent(newStudent);
+//                studentDAO.create(newStudent);
+                cleanStudentAdd();
+                cleanStudentEdit();
+                updateStudentList();
+            }
+        });
+
         //edit student button listener
         editovatStudentaButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                //check if all parameters are filled
                 if (!student_edit_login.getText().equals("") && !student_edit_jmeno.getText().equals("") &&
-                        !student_edit_prijmeni.getText().equals("") && student_edit_combobox.getSelectedIndex()!=0) {
-                    List<Student> found = studentDAO.findBy(student_edit_login.getText(),null,null,0);
-                    System.out.println("hledany login:"+student_edit_login.getText());
-                    if (found.size() == 1) {
-                        updatedStudent = found.get(0);
-                        updatedStudent.setLogin(student_edit_login.getText());
-                        updatedStudent.setJmeno(student_edit_jmeno.getText());
-                        updatedStudent.setPrijmeni(student_edit_prijmeni.getText());
-                        updatedStudent.setRocnik(student_edit_combobox.getSelectedIndex());
-                        studentService.updateStudent(updatedStudent);
+                        !student_edit_prijmeni.getText().equals("") && student_edit_combobox.getSelectedIndex() != 0) {
+                    //get student on desired index - they are ordered
+                    updatedStudent = students.get(student_seznam_list.getSelectedIndex());
+                    updatedStudent.setLogin(student_edit_login.getText());
+                    updatedStudent.setJmeno(student_edit_jmeno.getText());
+                    updatedStudent.setPrijmeni(student_edit_prijmeni.getText());
+                    updatedStudent.setRocnik(student_edit_combobox.getSelectedIndex());
+                    if (studentService.updateStudent(updatedStudent)) {
                         updateStudentList();
                         cleanStudentEdit();
                     } else {
-                        for (Student s : found){
-                            System.out.println(s.getJmeno());
-                        }
                         JOptionPane.showMessageDialog(student_edit_panel, "Student podle zadanych pozadavku nebyl nalezen.");
                         cleanStudentEdit();
                     }
@@ -237,9 +246,9 @@ public class Form extends JFrame {
         smazatStudentaButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!student_edit_login.getText().equals("") && !student_edit_jmeno.getText().equals("") &&
-                        !student_edit_prijmeni.getText().equals("") && student_edit_combobox.getSelectedIndex()!=0) {
-                    List<Student> found = studentDAO.findBy(student_edit_login.getText(),null,null,0);
-                    System.out.println("hledany login:"+student_edit_login.getText());
+                        !student_edit_prijmeni.getText().equals("") && student_edit_combobox.getSelectedIndex() != 0) {
+                    List<Student> found = studentDAO.findBy(student_edit_login.getText(), null, null, 0);
+                    System.out.println("hledany login:" + student_edit_login.getText());
                     if (found.size() == 1) {
                         updatedStudent = found.get(0);
                         studentDAO.delete(updatedStudent);
@@ -252,6 +261,12 @@ public class Form extends JFrame {
                 }
             }
         });
+
+        //===================================
+        //===================================
+        //SPRAVA VYUCUJICICH TAB
+        //===================================
+        //===================================
 
         //add vyucujici button listener
         pridatVyucujicihoButton.addActionListener(new ActionListener() {
@@ -272,7 +287,7 @@ public class Form extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!vyucujici_edit_login.getText().equals("") && !vyucujici_edit_jmeno.getText().equals("") &&
                         !vyucujici_edit_prijmeni.getText().equals("")) {
-                    List<Vyucujici> foundVyucujici = vyucujiciDAO.findBy(Utils.extractString(vyucujici_edit_login),null,null);
+                    List<Vyucujici> foundVyucujici = vyucujiciDAO.findBy(Utils.extractString(vyucujici_edit_login), null, null);
                     if (foundVyucujici.size() == 1) {
                         updatedVyucujici = foundVyucujici.get(0);
                         vyucujiciDAO.delete(updatedVyucujici);
@@ -301,9 +316,7 @@ public class Form extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!vyucujici_edit_login.getText().equals("") && !vyucujici_edit_jmeno.getText().equals("") &&
                         !vyucujici_edit_prijmeni.getText().equals("")) {
-                    List<Vyucujici> found = vyucujiciDAO.findBy(Utils.extractString(vyucujici_edit_login),null,null);
-                    if (found.size() == 1) {
-                        updatedVyucujici = found.get(0);
+                        updatedVyucujici = vyucujici.get(vyucujici_seznam_list.getSelectedIndex());
                         updatedVyucujici.setLogin(Utils.extractString(vyucujici_edit_login));
                         updatedVyucujici.setJmeno(Utils.extractString(vyucujici_edit_jmeno));
                         updatedVyucujici.setPrijmeni(Utils.extractString(vyucujici_edit_prijmeni));
@@ -311,14 +324,19 @@ public class Form extends JFrame {
                         if (vyucujiciService.updateVyucujici(updatedVyucujici)) {
                             System.out.println("Vyucujici successfuly updated.");
                         } else {
-                            JOptionPane.showMessageDialog(vyucujici_sprava_panel,"Vyucujiciho nebylo mozno updatovat.","Update se nepodaril",JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(vyucujici_sprava_panel, "Vyucujiciho nebylo mozno updatovat.", "Update se nepodaril", JOptionPane.ERROR_MESSAGE);
                         }
                         updateVyucujiciList();
                         cleanVyucujiciEdit();
-                    }
                 }
             }
         });
+
+        //===================================
+        //===================================
+        //SPRAVA PREDMETU TAB
+        //===================================
+        //===================================
 
         //pridat predmet
         pridatPredmetButton.addActionListener(new ActionListener() {
@@ -337,7 +355,7 @@ public class Form extends JFrame {
                 if (predmetService.addPredmet(newPredmet)) {
                     System.out.println("Podarilo se pridat novy predmet.");
                 } else {
-                    JOptionPane.showMessageDialog(predmet_pridat_panel,"Nebylo mozno pridat predmet, prosim zkontrolujte zadane udaje.","Pridani se nezdarilo",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(predmet_pridat_panel, "Nebylo mozno pridat predmet, prosim zkontrolujte zadane udaje.", "Pridani se nezdarilo", JOptionPane.ERROR_MESSAGE);
                 }
                 cleanPredmetAdd();
                 updatePredmetList();
@@ -375,27 +393,24 @@ public class Form extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if ((predmet_edit_kod.getText() != "") && (predmet_edit_nazev.getText() != "") && (predmet_edit_rozsah.getText() != "") &&
                         (Integer) predmet_edit_kredity_spinner.getValue() != 0) {
-                    List<Predmet> found = predmetDAO.findBy(Utils.extractString(predmet_edit_kod),null,null,0,null,null);
-                    if (found.size() == 1) {
-                        updatedPredmet = found.get(0);
-                        updatedPredmet.setKod(Utils.extractString(predmet_edit_kod));
-                        updatedPredmet.setNazev(Utils.extractString(predmet_edit_nazev));
-                        updatedPredmet.setRozsah(Utils.extractString(predmet_edit_rozsah));
-                        updatedPredmet.setPocetKreditu((Integer) predmet_edit_kredity_spinner.getValue());
-                        updatedPredmet.setJeZkouska(predmet_edit_zkouska_checkbox.isSelected());
-                        if (predmet_edit_letni.isSelected()) {
-                            updatedPredmet.setSemestr('l');
-                        } else {
-                            updatedPredmet.setSemestr('z');
-                        }
-                        if (predmetService.updatePredmet(updatedPredmet)) {
-                            System.out.println("Predmet uspesne updatovan.");
-                        } else {
-                            JOptionPane.showMessageDialog(predmet_edit_panel,"Predmet nebylo mozno updatovat.","Update se nepodaril",JOptionPane.ERROR_MESSAGE);
-                        }
-                        updatePredmetList();
-                        cleanPredmetEdit();
+                    updatedPredmet = predmety.get(predmet_seznam_list.getSelectedIndex());
+                    updatedPredmet.setKod(Utils.extractString(predmet_edit_kod));
+                    updatedPredmet.setNazev(Utils.extractString(predmet_edit_nazev));
+                    updatedPredmet.setRozsah(Utils.extractString(predmet_edit_rozsah));
+                    updatedPredmet.setPocetKreditu((Integer) predmet_edit_kredity_spinner.getValue());
+                    updatedPredmet.setJeZkouska(predmet_edit_zkouska_checkbox.isSelected());
+                    if (predmet_edit_letni.isSelected()) {
+                        updatedPredmet.setSemestr('l');
+                    } else {
+                        updatedPredmet.setSemestr('z');
                     }
+                    if (predmetService.updatePredmet(updatedPredmet)) {
+                        System.out.println("Predmet uspesne updatovan.");
+                    } else {
+                        JOptionPane.showMessageDialog(predmet_edit_panel, "Predmet nebylo mozno updatovat.", "Update se nepodaril", JOptionPane.ERROR_MESSAGE);
+                    }
+                    updatePredmetList();
+                    cleanPredmetEdit();
                 }
             }
         });
@@ -405,7 +420,7 @@ public class Form extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!predmet_edit_kod.getText().equals("") && !predmet_edit_nazev.getText().equals("") &&
                         !predmet_edit_rozsah.getText().equals("") && (Integer) predmet_edit_kredity_spinner.getValue() != 0) {
-                    List<Predmet> foundPredmet = predmetDAO.findBy(Utils.extractString(predmet_edit_kod),null,null,0,null,null);
+                    List<Predmet> foundPredmet = predmetDAO.findBy(Utils.extractString(predmet_edit_kod), null, null, 0, null, null);
                     if (foundPredmet.size() == 1) {
                         updatedPredmet = foundPredmet.get(0);
                         predmetDAO.delete(updatedPredmet);
@@ -419,18 +434,20 @@ public class Form extends JFrame {
         //vypsat predmet na semestr
         predmet_seznam_list.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                    if (e.isPopupTrigger()) {
-                        popUpMenu(e);
-                    }
+                if (e.isPopupTrigger()) {
+                    popUpMenu(e);
+                }
             }
+
             public void mouseReleased(MouseEvent e) {
                 if (e.isPopupTrigger()) {
                     popUpMenu(e);
                 }
             }
-            private void popUpMenu (MouseEvent e) {
+
+            private void popUpMenu(MouseEvent e) {
                 menu = createPopupMenu();
-                menu.show(e.getComponent(),e.getX(),e.getY());
+                menu.show(e.getComponent(), e.getX(), e.getY());
                 int index = predmet_seznam_list.locationToIndex(e.getPoint());
                 predmet_seznam_list.setSelectedIndex(index);
             }
@@ -535,6 +552,7 @@ public class Form extends JFrame {
     private void updateVyucujiciList() {
         allVyucujiciModel = new DefaultListModel();
         List<Vyucujici> foundVyucujici = vyucujiciDAO.findAll();
+        vyucujici = foundVyucujici;
         for (int i = 0; i < foundVyucujici.size(); i++) {
             Vector vyucujiciData = new Vector();
             vyucujiciData.add(foundVyucujici.get(i).getLogin());
@@ -605,7 +623,7 @@ public class Form extends JFrame {
         item.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VypsaniPredmetu.create(predmety.get(predmet_seznam_list.getSelectedIndex()));
+                VypsaniPredmetu.create(predmety.get(predmet_seznam_list.getSelectedIndex()),zalozkovy_panel);
             }
         });
         return menu;

@@ -3,6 +3,7 @@ package dao;
 import entities.Student;
 import entities.Vyucujici;
 
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,20 @@ public class VyucujiciDAO extends GenericDAO<Vyucujici> {
 //        for (Order order : orders) {
 //            cq.orderBy(order);
 //        }
+        return em.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Vyucujici> findAll() {
+        cq = cb.createQuery(Vyucujici.class);
+        ArrayList<Order> orders = new ArrayList<>();
+        orders.add(cb.asc(root.get("prijmeni")));
+        orders.add(cb.asc(root.get("jmeno")));
+        orders.add(cb.asc(root.get("login")));
+        cq.select(cq.from(Vyucujici.class));
+        for (Order order : orders){
+            cq.orderBy(order);
+        }
         return em.createQuery(cq).getResultList();
     }
 }

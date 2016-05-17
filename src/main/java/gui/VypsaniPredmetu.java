@@ -7,6 +7,7 @@ import service.InstancePredmetService;
 import service.PredmetService;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
@@ -79,10 +80,11 @@ public class VypsaniPredmetu extends JDialog {
 
 
     //TODO udelat, aby se nezaviraly vsechny panely a okna, dispose by to sice melo delat ale dela jenom bordel
-    public static void create(Predmet predmet) {
+    public static void create(Predmet predmet, Component c) {
         VypsaniPredmetu dialog = new VypsaniPredmetu();
         dialog.setSelectedPredmet(predmet);
         dialog.setSpinnerModel();
+        dialog.setLocationRelativeTo(c);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);

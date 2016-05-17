@@ -2,6 +2,7 @@ package dao;
 
 import entities.Predmet;
 
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,20 @@ public class PredmetDAO extends GenericDAO<Predmet> {
         }
         for (Predicate p : predicates) {
             cq.where(p);
+        }
+        return em.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Predmet> findAll() {
+        cq = cb.createQuery(Predmet.class);
+        ArrayList<Order> orders = new ArrayList<>();
+//        orders.add(cb.asc(root.get("rozsah")));
+        orders.add(cb.asc(root.get("kod")));
+        orders.add(cb.asc(root.get("nazev")));
+        cq.select(cq.from(Predmet.class));
+        for (Order order : orders){
+            cq.orderBy(order);
         }
         return em.createQuery(cq).getResultList();
     }
