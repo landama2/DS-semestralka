@@ -118,6 +118,8 @@ public class Form extends JFrame {
     DefaultListModel allPredmetModel;
     SpinnerNumberModel spinnerNumberModel;
 
+    JPopupMenu menu;
+
     public Form() throws HeadlessException {
         super("Form");
         setContentPane(Panel);
@@ -220,7 +222,7 @@ public class Form extends JFrame {
         //list selection listener on doubleclick
         student_seznam_list.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
+                if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
                     int index = student_seznam_list.locationToIndex(e.getPoint());
                     Vector selectedData = (Vector) allStudentModel.getElementAt(index);
                     student_edit_login.setText((String) selectedData.get(0));
@@ -284,7 +286,7 @@ public class Form extends JFrame {
         //double click choose vyucujici
         vyucujici_seznam_list.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
+                if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
                     int index = vyucujici_seznam_list.locationToIndex(e.getPoint());
                     Vector selectedData = (Vector) allVyucujiciModel.getElementAt(index);
                     vyucujici_edit_login.setText((String) selectedData.get(0));
@@ -345,7 +347,7 @@ public class Form extends JFrame {
         //listener na double click over list
         predmet_seznam_list.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
+                if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
                     int index = predmet_seznam_list.locationToIndex(e.getPoint());
                     Vector selectedData = (Vector) allPredmetModel.getElementAt(index);
                     predmet_edit_kod.setText((String) selectedData.get(0));
@@ -411,6 +413,26 @@ public class Form extends JFrame {
                         cleanPredmetEdit();
                     }
                 }
+            }
+        });
+
+        //vypsat predmet na semestr
+        predmet_seznam_list.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                    if (e.isPopupTrigger()) {
+                        popUpMenu(e);
+                    }
+            }
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    popUpMenu(e);
+                }
+            }
+            private void popUpMenu (MouseEvent e) {
+                menu = createPopupMenu();
+                menu.show(e.getComponent(),e.getX(),e.getY());
+                int index = predmet_seznam_list.locationToIndex(e.getPoint());
+                predmet_seznam_list.setSelectedIndex(index);
             }
         });
     }
@@ -573,5 +595,19 @@ public class Form extends JFrame {
             allPredmetModel.addElement(predmetData);
         }
         predmet_seznam_list.setModel(allPredmetModel);
+    }
+
+    //create popup menu for "Vypsat predmet"
+    private JPopupMenu createPopupMenu() {
+        JMenuItem item = new JMenuItem("Vypsat predmet");
+        JPopupMenu menu = new JPopupMenu();
+        menu.add(item);
+        item.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                VypsaniPredmetu.create(predmety.get(predmet_seznam_list.getSelectedIndex()));
+            }
+        });
+        return menu;
     }
 }

@@ -13,7 +13,7 @@ public class InstancePredmet {
     @Id
     @GeneratedValue
     @Column(name = "intance_predmet_id", nullable = false)
-    private long instancePredmetId;
+    private int instancePredmetId;
 
     @Column(nullable = false)
     private int skolniRok;
@@ -34,7 +34,7 @@ public class InstancePredmet {
         return instancePredmetId;
     }
 
-    public void setInstancePredmetId(long instancePredmetId) {
+    public void setInstancePredmetId(int instancePredmetId) {
         this.instancePredmetId = instancePredmetId;
     }
 

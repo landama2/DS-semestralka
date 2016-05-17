@@ -14,7 +14,7 @@ public class Predmet {
     @Id
     @GeneratedValue
     @Column(name = "idpredmet", nullable = false)
-    private long predmetId;
+    private int predmetId;
 
     @Column(nullable = false, unique = true)
     private String kod;
@@ -44,7 +44,7 @@ public class Predmet {
         this.nazev = nazev;
     }
 
-    public long getPredmetId() {
+    public int getPredmetId() {
         return predmetId;
     }
 
@@ -96,7 +96,7 @@ public class Predmet {
         this.instancePredmetList = instancePredmetList;
     }
 
-    public void setPredmetId(long predmetId) {
+    public void setPredmetId(int predmetId) {
         this.predmetId = predmetId;
     }
 
