@@ -16,8 +16,8 @@ public class GenericDAO<T> {
 
     private Class<T> entityClass;
 
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMF");
-    EntityManager em = entityManagerFactory.createEntityManager();
+//    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("EMF");
+    static EntityManager em = Persistence.createEntityManagerFactory("EMF").createEntityManager();
     EntityTransaction tx = em.getTransaction();
 
     CriteriaBuilder cb = em.getCriteriaBuilder();

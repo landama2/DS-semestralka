@@ -1,11 +1,14 @@
 package gui;
 
+import dao.InstancePredmetDAO;
 import dao.PredmetDAO;
 import dao.StudentDAO;
 import dao.VyucujiciDAO;
+import entities.InstancePredmet;
 import entities.Predmet;
 import entities.Student;
 import entities.Vyucujici;
+import service.InstancePredmetService;
 import service.PredmetService;
 import service.StudentService;
 import service.VyucujiciService;
@@ -18,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -87,6 +91,16 @@ public class Form extends JFrame {
     private JRadioButton predmet_edit_letni;
     private JRadioButton predmet_edit_zimni;
     private JPanel predmet_pridat_panel;
+    private JPanel zapsat_predmet;
+    private JList zapsat_predmet_seznam_list;
+    private JList zapsat_student_seznam_list;
+    private JSpinner zapsat_predmet_rok_spinner;
+    private JCheckBox zapsat_predmet_zimni;
+    private JCheckBox zapsat_predmet_letni;
+    private JButton zapsat_zobrazit_predmety;
+    private JLabel zapsat_predmet_student;
+    private JLabel zapsat_predmet_predmet;
+    private JButton zapsatPredmetButton;
     private JTable student_results_table;
     private JList student_found_list;
 
@@ -94,11 +108,13 @@ public class Form extends JFrame {
     StudentDAO studentDAO = new StudentDAO(Student.class);
     VyucujiciDAO vyucujiciDAO = new VyucujiciDAO(Vyucujici.class);
     PredmetDAO predmetDAO = new PredmetDAO(Predmet.class);
+    InstancePredmetDAO instancePredmetDAO = new InstancePredmetDAO(InstancePredmet.class);
 
     //Services
     StudentService studentService = new StudentService();
     VyucujiciService vyucujiciService = new VyucujiciService();
     PredmetService predmetService = new PredmetService();
+    InstancePredmetService instancePredmetService = new InstancePredmetService();
 
     //objects
     private Student newStudent;
@@ -116,7 +132,8 @@ public class Form extends JFrame {
     DefaultListModel allStudentModel;
     DefaultListModel allVyucujiciModel;
     DefaultListModel allPredmetModel;
-    SpinnerNumberModel spinnerNumberModel;
+    SpinnerNumberModel spinnerNumberModelKredity;
+    SpinnerNumberModel spinnerNumberModelRok;
 
     JPopupMenu menu;
 
@@ -143,11 +160,17 @@ public class Form extends JFrame {
         student_seznam_list.setModel(allStudentModel);
         vyucujici_seznam_list.setModel(allVyucujiciModel);
         predmet_seznam_list.setModel(allPredmetModel);
-        spinnerNumberModel = new SpinnerNumberModel(0, 0, 30, 1);
-        predmet_pridat_kredity_spinner.setModel(spinnerNumberModel);
-        predmet_edit_kredity_spinner.setModel(spinnerNumberModel);
+        spinnerNumberModelKredity = new SpinnerNumberModel(0, 0, 30, 1);
+        spinnerNumberModelRok = new SpinnerNumberModel(2016,2016,3000,1);
+        zapsat_predmet_zimni.setSelected(false);
+        zapsat_predmet_letni.setSelected(false);
+        predmet_pridat_kredity_spinner.setModel(spinnerNumberModelKredity);
+        predmet_edit_kredity_spinner.setModel(spinnerNumberModelKredity);
+        zapsat_predmet_rok_spinner.setModel(spinnerNumberModelRok);
         predmet_pridat_letni.setSelected(true);
         predmet_pridat_zimni.setSelected(false);
+        zapsat_predmet_student.setVisible(false);
+        zapsat_predmet_predmet.setVisible(false);
 
 
         //===================================
@@ -477,6 +500,28 @@ public class Form extends JFrame {
                 menu.show(e.getComponent(), e.getX(), e.getY());
                 int index = vyucujici_seznam_list.locationToIndex(e.getPoint());
                 vyucujici_seznam_list.setSelectedIndex(index);
+            }
+        });
+
+        //=====================
+        //ZAPIS PREDMETU
+        //=====================
+
+        //zobrazit
+        zapsat_zobrazit_predmety.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if ((!zapsat_predmet_zimni.isSelected() && !zapsat_predmet_letni.isSelected())
+                        || (zapsat_predmet_letni.isSelected() && zapsat_predmet_zimni.isSelected())) {
+                //rozbrazit vsechny predmety bez ohledu na semestr
+                } else {
+                    char semestr;
+                    if (zapsat_predmet_letni.isSelected()) {
+                        semestr = 'l';
+                    } else {
+                        semestr = 'z';
+                    }
+                }
+                List<InstancePredmet> found = new ArrayList<InstancePredmet>();
             }
         });
     }
