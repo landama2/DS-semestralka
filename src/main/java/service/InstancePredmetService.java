@@ -3,6 +3,8 @@ package service;
 import dao.InstancePredmetDAO;
 import entities.InstancePredmet;
 
+import java.util.List;
+
 /**
  * Created by urban on 5/17/2016.
  */

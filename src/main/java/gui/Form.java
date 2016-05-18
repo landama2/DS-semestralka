@@ -431,6 +431,9 @@ public class Form extends JFrame {
             }
         });
 
+        //=========================
+        //DIALOG NA VYPSANI PREDMETU
+        //=========================
         //vypsat predmet na semestr
         predmet_seznam_list.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -446,10 +449,34 @@ public class Form extends JFrame {
             }
 
             private void popUpMenu(MouseEvent e) {
-                menu = createPopupMenu();
+                menu = cretaePopupMenuForVypsat();
                 menu.show(e.getComponent(), e.getX(), e.getY());
                 int index = predmet_seznam_list.locationToIndex(e.getPoint());
                 predmet_seznam_list.setSelectedIndex(index);
+            }
+        });
+
+        //=========================
+        //DIALOG NA PRIRAZENI VYUCUJICIHO
+        //=========================
+        vyucujici_seznam_list.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    popUpMenu(e);
+                }
+            }
+
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    popUpMenu(e);
+                }
+            }
+
+            private void popUpMenu(MouseEvent e) {
+                menu = createPopupMenuForPrirazeni();
+                menu.show(e.getComponent(), e.getX(), e.getY());
+                int index = vyucujici_seznam_list.locationToIndex(e.getPoint());
+                vyucujici_seznam_list.setSelectedIndex(index);
             }
         });
     }
@@ -615,18 +642,35 @@ public class Form extends JFrame {
         predmet_seznam_list.setModel(allPredmetModel);
     }
 
+    //============================
+    //POPUP MENUS
+    //============================
+
     //create popup menu for "Vypsat predmet"
-    private JPopupMenu createPopupMenu() {
+    private JPopupMenu cretaePopupMenuForVypsat() {
         JMenuItem item = new JMenuItem("Vypsat predmet");
         JPopupMenu menu = new JPopupMenu();
         menu.add(item);
         item.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(predmet_seznam_list.getSelectedIndex() + " selected index");
-                System.out.println(predmet_seznam_list.getSelectedValue() + " selected value");
-                System.out.println(predmety.get(predmet_seznam_list.getSelectedIndex()).getNazev() + " selected predmet");
+//                System.out.println(predmet_seznam_list.getSelectedIndex() + " selected index");
+//                System.out.println(predmet_seznam_list.getSelectedValue() + " selected value");
+//                System.out.println(predmety.get(predmet_seznam_list.getSelectedIndex()).getNazev() + " selected predmet");
                 VypsaniPredmetu.create(predmety.get(predmet_seznam_list.getSelectedIndex()),zalozkovy_panel);
+            }
+        });
+        return menu;
+    }
+
+    private JPopupMenu createPopupMenuForPrirazeni() {
+        JMenuItem item = new JMenuItem("Priradit predmet");
+        JPopupMenu menu = new JPopupMenu();
+        menu.add(item);
+        item.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PriraditVyucujici.create(vyucujici.get(vyucujici_seznam_list.getSelectedIndex()));
             }
         });
         return menu;

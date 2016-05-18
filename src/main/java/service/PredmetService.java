@@ -35,10 +35,6 @@ public class PredmetService {
     public boolean addInstanceAndUpdate(InstancePredmet instancePredmet) {
         Predmet predmet = instancePredmet.getPredmet();
         List<InstancePredmet> found = instancePredmetDAO.findBy(predmet, instancePredmet.getSkolniRok());
-        System.out.println(found.size());
-        for (InstancePredmet i : found) {
-            System.out.println(i.getPredmet().getNazev() + " " + i.getSkolniRok());
-        }
         if (found == null || found.size() == 0) {
             List<InstancePredmet> currentInstances = predmet.getInstancePredmetList();
             if (currentInstances == null) {
@@ -54,7 +50,6 @@ public class PredmetService {
                 instancePredmetDAO.create(instancePredmet);
                 predmetDAO.update(predmet);
                 return true;
-
             }
         }
         return false;
