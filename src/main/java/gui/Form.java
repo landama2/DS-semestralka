@@ -224,6 +224,7 @@ public class Form extends JFrame {
                 cleanStudentAdd();
                 cleanStudentEdit();
                 updateStudentList();
+                updateZapsatStudentList();
             }
         });
 
@@ -241,6 +242,7 @@ public class Form extends JFrame {
                     updatedStudent.setRocnik(student_edit_combobox.getSelectedIndex());
                     if (studentService.updateStudent(updatedStudent)) {
                         updateStudentList();
+                        updateZapsatStudentList();
                         cleanStudentEdit();
                     } else {
                         JOptionPane.showMessageDialog(student_edit_panel, "Student podle zadanych pozadavku nebyl nalezen.");
@@ -274,6 +276,7 @@ public class Form extends JFrame {
                         updatedStudent = found.get(0);
                         studentDAO.delete(updatedStudent);
                         updateStudentList();
+                        updateZapsatStudentList();
                         cleanStudentEdit();
                     } else {
                         JOptionPane.showMessageDialog(student_edit_panel, "Student podle zadanych pozadavku nebyl nalezen.");
