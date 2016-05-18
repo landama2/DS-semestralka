@@ -14,6 +14,7 @@ public class VyucujiciHodinaService {
         if (isNotValid(vyucujiciHodina)) {
             return false;
         }
+        vyucujiciHodina.setTypHodiny('p');
         vyucujiciHodinaDAO.create(vyucujiciHodina);
         return true;
     }

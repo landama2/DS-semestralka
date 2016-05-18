@@ -14,7 +14,8 @@ public class VyucujiciHodina {
     @Column(name = "vyucujici_hodina_id", nullable = false)
     private long vyucujiciHodinaId;
 
-    private char typHodiny;
+    //default set to prednaska = 'p', can be set to cviceni = 'c'
+    private char typHodiny = 'p';
 
     @ManyToOne
     private InstancePredmet instancePredmet;
