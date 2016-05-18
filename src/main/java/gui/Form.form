@@ -828,13 +828,15 @@
             <constraints>
               <tabbedpane title="Zapsat predmet"/>
             </constraints>
-            <properties/>
+            <properties>
+              <foreground color="-5329234"/>
+            </properties>
             <border type="none"/>
             <children>
               <grid id="7caf9" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
@@ -898,7 +900,7 @@
                   <grid id="d54c9" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="2" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                     <border type="none" title="Zapsat predmet"/>
@@ -927,19 +929,21 @@
                           <text value="Zapsat predmet"/>
                         </properties>
                       </component>
-                      <component id="a4bc2" class="javax.swing.JLabel">
+                      <component id="a4bc2" class="javax.swing.JLabel" binding="student_zapsat">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
+                          <background color="-3089447"/>
                           <text value="Student"/>
                         </properties>
                       </component>
-                      <component id="426ab" class="javax.swing.JLabel">
+                      <component id="426ab" class="javax.swing.JLabel" binding="predmet_zapsat">
                         <constraints>
-                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
+                          <opaque value="false"/>
                           <text value="Predmet"/>
                         </properties>
                       </component>

@@ -41,7 +41,7 @@ public class InstancePredmetDAO extends GenericDAO<InstancePredmet>{
 
     public List<InstancePredmet> findByCurrentYearAndSemestr(Integer skolniRok, Character semestr){
         String sqlQuery = "SELECT instance_predmet.* FROM predmet INNER JOIN instance_predmet ON predmet.idpredmet=instance_predmet.predmet_idpredmet WHERE skolnirok = ? AND predmet.semestr = ?;";
-        Query q = em.createNativeQuery(sqlQuery);
+        Query q = em.createNativeQuery(sqlQuery,InstancePredmet.class);
         q.setParameter(1, skolniRok);
         q.setParameter(2, semestr);
         return q.getResultList();

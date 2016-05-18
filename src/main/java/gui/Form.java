@@ -1,17 +1,8 @@
 package gui;
 
-import dao.InstancePredmetDAO;
-import dao.PredmetDAO;
-import dao.StudentDAO;
-import dao.VyucujiciDAO;
-import entities.InstancePredmet;
-import entities.Predmet;
-import entities.Student;
-import entities.Vyucujici;
-import service.InstancePredmetService;
-import service.PredmetService;
-import service.StudentService;
-import service.VyucujiciService;
+import dao.*;
+import entities.*;
+import service.*;
 import utils.Utils;
 
 import javax.swing.*;
@@ -101,6 +92,8 @@ public class Form extends JFrame {
     private JLabel zapsat_predmet_student;
     private JLabel zapsat_predmet_predmet;
     private JButton zapsatPredmetButton;
+    private JLabel predmet_zapsat;
+    private JLabel student_zapsat;
     private JTable student_results_table;
     private JList student_found_list;
 
@@ -109,12 +102,14 @@ public class Form extends JFrame {
     VyucujiciDAO vyucujiciDAO = new VyucujiciDAO(Vyucujici.class);
     PredmetDAO predmetDAO = new PredmetDAO(Predmet.class);
     InstancePredmetDAO instancePredmetDAO = new InstancePredmetDAO(InstancePredmet.class);
+    ZaznamPredmetDAO zaznamPredmetDAO = new ZaznamPredmetDAO(ZaznamPredmet.class);
 
     //Services
     StudentService studentService = new StudentService();
     VyucujiciService vyucujiciService = new VyucujiciService();
     PredmetService predmetService = new PredmetService();
     InstancePredmetService instancePredmetService = new InstancePredmetService();
+    ZaznamPredmetuService zaznamPredmetuService = new ZaznamPredmetuService();
 
     //objects
     private Student newStudent;
@@ -125,6 +120,7 @@ public class Form extends JFrame {
     private Predmet updatedPredmet;
     private InstancePredmet selectedInstance;
     private Student selectedStudent;
+    private ZaznamPredmet newZaznamPredmet;
 
     private List<Student> students;
     private List<Vyucujici> vyucujici;
@@ -160,6 +156,7 @@ public class Form extends JFrame {
         updateStudentList();
         updateVyucujiciList();
         updatePredmetList();
+        updateZapsatStudentList();
         student_seznam_list.setModel(allStudentModel);
         vyucujici_seznam_list.setModel(allVyucujiciModel);
         predmet_seznam_list.setModel(allPredmetModel);
@@ -176,7 +173,6 @@ public class Form extends JFrame {
         zapsat_predmet_student.setText("");
         zapsat_predmet_predmet.setText("");
 
-
         //===================================
         //===================================
         //VYHLEDAVANI TAB
@@ -186,7 +182,6 @@ public class Form extends JFrame {
         student_vyhledat_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Searchng for some students...");
                 List<Student> results = studentDAO.findBy(Utils.extractString(student_vyhledat_login), Utils.extractString(student_vyhledat_jmeno),
                         Utils.extractString(student_vyhledat_prijmeni), student_vyhledat_rocnik.getSelectedIndex());
 
@@ -275,7 +270,6 @@ public class Form extends JFrame {
                 if (!student_edit_login.getText().equals("") && !student_edit_jmeno.getText().equals("") &&
                         !student_edit_prijmeni.getText().equals("") && student_edit_combobox.getSelectedIndex() != 0) {
                     List<Student> found = studentDAO.findBy(student_edit_login.getText(), null, null, 0);
-                    System.out.println("hledany login:" + student_edit_login.getText());
                     if (found.size() == 1) {
                         updatedStudent = found.get(0);
                         studentDAO.delete(updatedStudent);
@@ -555,6 +549,28 @@ public class Form extends JFrame {
                 }
             }
         });
+
+        //zapsat predmet
+        zapsatPredmetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (!zapsat_predmet_student.getText().equals("") && !zapsat_predmet_predmet.getText().equals("")) {
+                    newZaznamPredmet = new ZaznamPredmet();
+                    newZaznamPredmet.setInstancePredmet(selectedInstance);
+                    newZaznamPredmet.setStudent(selectedStudent);
+                    newZaznamPredmet.setPoradiZapisu(PoradiZapisu.prvni);
+                    newZaznamPredmet.setStav(StavPredmetu.ZAPSANO);
+                    if (zaznamPredmetuService.createZaznam(newZaznamPredmet)) {
+                        System.out.println("Zaznam byl uspesne vytvoren.");
+                        zapsat_predmet_predmet.setText("");
+                        zapsat_predmet_student.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(zapsat_predmet, "Predmet nebylo mozno zapsat.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(zapsat_predmet, "Predmet nebylo mozno zapsat, je treba vybrat studenta i predmet.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
 
     //==========================
@@ -730,9 +746,6 @@ public class Form extends JFrame {
         item.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                System.out.println(predmet_seznam_list.getSelectedIndex() + " selected index");
-//                System.out.println(predmet_seznam_list.getSelectedValue() + " selected value");
-//                System.out.println(predmety.get(predmet_seznam_list.getSelectedIndex()).getNazev() + " selected predmet");
                 VypsaniPredmetu.create(predmety.get(predmet_seznam_list.getSelectedIndex()),zalozkovy_panel);
             }
         });
@@ -766,14 +779,21 @@ public class Form extends JFrame {
 
     private void updateVypsanePredmety() {
         DefaultListModel model = new DefaultListModel();
-        InstancePredmet i;
-        System.out.println(vypsaneInstance.size());
-        for (Object o : vypsaneInstance) {
-            i = (InstancePredmet) o;
+        for (InstancePredmet i : vypsaneInstance) {
             Vector instanceData = new Vector();
             instanceData.add(i.getPredmet().getKod() + " " + i.getPredmet().getNazev() + " " + i.getPredmet().getSemestr() + " " + i.getSkolniRok());
             model.addElement(instanceData);
         }
         zapsat_predmet_seznam_list.setModel(model);
+    }
+
+    private void updateZapsatStudentList() {
+        DefaultListModel model = new DefaultListModel();
+        for (Student s : students) {
+            Vector studentData = new Vector();
+            studentData.add(s.getLogin() + " " + s.getJmeno() + " " + s.getPrijmeni() + " " + s.getRocnik() + " rocnik");
+            model.addElement(studentData);
+        }
+        zapsat_student_seznam_list.setModel(model);
     }
 }

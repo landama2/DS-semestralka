@@ -12,14 +12,14 @@ public class ZaznamPredmet {
 
     @Id
     @GeneratedValue
-    @Column(name = "zaznam_predmet_id", nullable = false)
+    @Column(name = "idzaznam_predmet", nullable = false)
     private long zaznamPredmetId;
 
     @Enumerated
-    @Column(nullable = false)
+    @Column(name = "stav_predmetu", nullable = false)
     private StavPredmetu stav;
 
-    @Column(nullable = false)
+    @Column(name = "poradi_zapisu", nullable = false)
     private PoradiZapisu poradiZapisu;
 
     @ManyToOne

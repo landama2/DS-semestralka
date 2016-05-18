@@ -2,7 +2,9 @@ package service;
 
 import dao.InstancePredmetDAO;
 import entities.InstancePredmet;
+import entities.VyucujiciHodina;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
