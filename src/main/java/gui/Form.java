@@ -170,10 +170,11 @@ public class Form extends JFrame {
         predmet_pridat_kredity_spinner.setModel(spinnerNumberModelKredity);
         predmet_edit_kredity_spinner.setModel(spinnerNumberModelKredity);
         zapsat_predmet_rok_spinner.setModel(spinnerNumberModelRok);
+        zapsat_predmet_rok_spinner.setEditor(new JSpinner.NumberEditor(zapsat_predmet_rok_spinner,"#"));
         predmet_pridat_letni.setSelected(true);
         predmet_pridat_zimni.setSelected(false);
-        zapsat_predmet_student.setVisible(false);
-        zapsat_predmet_predmet.setVisible(false);
+        zapsat_predmet_student.setText("");
+        zapsat_predmet_predmet.setText("");
 
 
         //===================================
@@ -510,21 +511,25 @@ public class Form extends JFrame {
         //ZAPIS PREDMETU
         //=====================
 
-        //zobrazit
+        //zobrazit dostupne predmety
         zapsat_zobrazit_predmety.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                cleanVybratDostupnePredmety();
                 if ((!zapsat_predmet_zimni.isSelected() && !zapsat_predmet_letni.isSelected())
                         || (zapsat_predmet_letni.isSelected() && zapsat_predmet_zimni.isSelected())) {
                 //rozbrazit vsechny predmety bez ohledu na semestr
                 } else {
-                    char semestr;
+                    Character semestr;
                     if (zapsat_predmet_letni.isSelected()) {
                         semestr = 'l';
                     } else {
                         semestr = 'z';
                     }
+                    List<InstancePredmet> found = new ArrayList<InstancePredmet>();
+                    found = instancePredmetDAO.findByCurrentYearAndSemestr((Integer)zapsat_predmet_rok_spinner.getValue(),semestr);
+                    vypsaneInstance = found;
+                    updateVypsanePredmety();
                 }
-                List<InstancePredmet> found = new ArrayList<InstancePredmet>();
             }
         });
 
@@ -745,5 +750,30 @@ public class Form extends JFrame {
             }
         });
         return menu;
+    }
+
+    //============================
+    //SPRAVA ZAPISOVANI PREDMETU
+    //============================
+
+    private void cleanVybratDostupnePredmety() {
+        zapsat_predmet_rok_spinner.setValue(2016);
+        zapsat_predmet_zimni.setSelected(false);
+        zapsat_predmet_letni.setSelected(false);
+        zapsat_predmet_seznam_list.clearSelection();
+        zapsat_student_seznam_list.clearSelection();
+    }
+
+    private void updateVypsanePredmety() {
+        DefaultListModel model = new DefaultListModel();
+        InstancePredmet i;
+        System.out.println(vypsaneInstance.size());
+        for (Object o : vypsaneInstance) {
+            i = (InstancePredmet) o;
+            Vector instanceData = new Vector();
+            instanceData.add(i.getPredmet().getKod() + " " + i.getPredmet().getNazev() + " " + i.getPredmet().getSemestr() + " " + i.getSkolniRok());
+            model.addElement(instanceData);
+        }
+        zapsat_predmet_seznam_list.setModel(model);
     }
 }
