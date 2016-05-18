@@ -123,10 +123,13 @@ public class Form extends JFrame {
     private Vyucujici updatedVyucujici;
     private Predmet newPredmet;
     private Predmet updatedPredmet;
+    private InstancePredmet selectedInstance;
+    private Student selectedStudent;
 
     private List<Student> students;
     private List<Vyucujici> vyucujici;
     private List<Predmet> predmety;
+    private List<InstancePredmet> vypsaneInstance;
 
     DefaultTableModel studentTableModel;
     DefaultListModel allStudentModel;
@@ -522,6 +525,29 @@ public class Form extends JFrame {
                     }
                 }
                 List<InstancePredmet> found = new ArrayList<InstancePredmet>();
+            }
+        });
+
+        //select predmet from list of avaliable instances
+        zapsat_predmet_seznam_list.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int index = zapsat_predmet_seznam_list.locationToIndex(e.getPoint());
+                    selectedInstance = vypsaneInstance.get(index);
+                    zapsat_predmet_predmet.setText(selectedInstance.getPredmet().getKod() + " " + selectedInstance.getPredmet().getNazev());
+                }
+            }
+        });
+
+        //select student from list of students
+        zapsat_student_seznam_list.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int index = zapsat_student_seznam_list.locationToIndex(e.getPoint());
+                    selectedStudent = students.get(index);
+                    zapsat_predmet_student.setText(selectedStudent.getLogin() + " "
+                            + selectedStudent.getJmeno() + " " + selectedStudent.getPrijmeni());
+                }
             }
         });
     }
