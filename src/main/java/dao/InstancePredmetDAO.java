@@ -3,6 +3,7 @@ package dao;
 import entities.InstancePredmet;
 import entities.Predmet;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,16 @@ public class InstancePredmetDAO extends GenericDAO<InstancePredmet>{
 //        for (Predicate p : predicates) {
 //            cq.where(p);
 //        }
+
         cq.select(root).where(predicates.toArray(new Predicate[]{}));
         return em.createQuery(cq).getResultList();
+    }
+
+    public List<InstancePredmet> findByCurrentYearAndSemestr(Integer skolniRok, Character semestr){
+        String sqlQuery = "SELECT predmet.* FROM predmet INNER JOIN instance_predmet ON predmet.idpredmet=instance_predmet.predmet_idpredmet WHERE skolnirok = ?rok AND predmet.semestr = ?semestr;";
+        Query q = em.createNativeQuery(sqlQuery);
+        q.setParameter( "?rok", skolniRok);
+        q.setParameter( "?semestr", semestr);
+        return q.getResultList();
     }
 }

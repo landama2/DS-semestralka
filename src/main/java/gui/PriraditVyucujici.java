@@ -5,7 +5,6 @@ import entities.InstancePredmet;
 import entities.Vyucujici;
 import entities.VyucujiciHodina;
 import service.VyucujiciHodinaService;
-import service.VyucujiciService;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -48,6 +47,8 @@ public class PriraditVyucujici extends JDialog {
                 newVyucujiciHodina = new VyucujiciHodina();
                 newVyucujiciHodina.setVyucujici(vyucujici);
                 newVyucujiciHodina.setInstancePredmet(selectedInstance);
+                System.out.println(vyucujici.getJmeno());
+                System.out.println(selectedInstance.getSkolniRok());
                 if (vyucujiciHodinaService.createVyucujiciHodina(newVyucujiciHodina)) {
                     System.out.println("Predmet uspesne prirazen vyucujicimu.");
                 } else {
