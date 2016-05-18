@@ -46,4 +46,10 @@ public class InstancePredmetDAO extends GenericDAO<InstancePredmet>{
         q.setParameter(2, semestr);
         return q.getResultList();
     }
+
+    public List<Predmet> findPredmetyToCancel() {
+        String sqlQuery = "SELECT instance_predmet, COUNT(*) NumOfPredmety FROM instance_predmet INNER JOIN zaznam_predmet ON instance_predmet.intance_predmet_id = zaznam_predmet.instancepredmet_intance_predmet_id HAVING COUNT (*) < 7);";
+        Query q = em.createNativeQuery(sqlQuery,InstancePredmet.class);
+        return q.getResultList();
+    }
 }

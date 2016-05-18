@@ -512,6 +512,15 @@ public class Form extends JFrame {
                 if ((!zapsat_predmet_zimni.isSelected() && !zapsat_predmet_letni.isSelected())
                         || (zapsat_predmet_letni.isSelected() && zapsat_predmet_zimni.isSelected())) {
                 //rozbrazit vsechny predmety bez ohledu na semestr
+                    List<InstancePredmet> found = new ArrayList<InstancePredmet>();
+                    found = instancePredmetDAO.findBy(null,(Integer)zapsat_predmet_rok_spinner.getValue());
+                    vypsaneInstance = found;
+                    if (found.size() == 0) {
+                        JOptionPane.showMessageDialog(zapsat_predmet,"Nebyl nalezen zadny vypsany predmet.","Error",JOptionPane.ERROR_MESSAGE);
+                        cleanVybratDostupnePredmety();
+                    } else {
+                        updateVypsanePredmety();
+                    }
                 } else {
                     Character semestr;
                     if (zapsat_predmet_letni.isSelected()) {
@@ -522,7 +531,12 @@ public class Form extends JFrame {
                     List<InstancePredmet> found = new ArrayList<InstancePredmet>();
                     found = instancePredmetDAO.findByCurrentYearAndSemestr((Integer)zapsat_predmet_rok_spinner.getValue(),semestr);
                     vypsaneInstance = found;
-                    updateVypsanePredmety();
+                    if (found.size() == 0) {
+                        JOptionPane.showMessageDialog(zapsat_predmet,"Nebyl nalezen zadny vypsany predmet.","Error",JOptionPane.ERROR_MESSAGE);
+                        cleanVybratDostupnePredmety();
+                    } else {
+                        updateVypsanePredmety();
+                    }
                 }
             }
         });

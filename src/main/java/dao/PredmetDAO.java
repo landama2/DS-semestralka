@@ -2,6 +2,7 @@ package dao;
 
 import entities.Predmet;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;

@@ -1022,9 +1022,5 @@
       <member id="5248d"/>
       <member id="ce985"/>
     </group>
-    <group name="zapsat_predmet_semestr_checkboxes">
-      <member id="c4aa2"/>
-      <member id="74ee2"/>
-    </group>
   </buttonGroups>
 </form>
