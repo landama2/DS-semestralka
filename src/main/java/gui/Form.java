@@ -511,18 +511,20 @@ public class Form extends JFrame {
         //zobrazit dostupne predmety
         zapsat_zobrazit_predmety.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cleanVybratDostupnePredmety();
                 if ((!zapsat_predmet_zimni.isSelected() && !zapsat_predmet_letni.isSelected())
                         || (zapsat_predmet_letni.isSelected() && zapsat_predmet_zimni.isSelected())) {
                 //rozbrazit vsechny predmety bez ohledu na semestr
                     List<InstancePredmet> found = new ArrayList<InstancePredmet>();
                     found = instancePredmetDAO.findBy(null,(Integer)zapsat_predmet_rok_spinner.getValue());
+                    System.out.println(zapsat_predmet_rok_spinner.getValue() + " na spinneru\n");
                     vypsaneInstance = found;
                     if (found.size() == 0) {
                         JOptionPane.showMessageDialog(zapsat_predmet,"Nebyl nalezen zadny vypsany predmet.","Error",JOptionPane.ERROR_MESSAGE);
                         cleanVybratDostupnePredmety();
+                        updateVypsanePredmety();
                     } else {
                         updateVypsanePredmety();
+                        cleanVybratDostupnePredmety();
                     }
                 } else {
                     Character semestr;
